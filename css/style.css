@@ -1,23 +1,63 @@
 
 @keyframes view {
     100% {
-        opacity: 0.1;
+        opacity: 0.06;
     }
-    60%{
-        opacity: 0.4 ;
-    }
+
 }
 @keyframes rotate {
     100% {
         transform: rotate(360deg);
     }
 }
+*{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
+#LuringMessage{
+    color: #ffffff;
+    position: relative;top: -500px; left: 600px;
+    font-family:    Impact, Charcoal, sans-serif;
 
+}
+#sign_up{
+    position: relative; top: -80px;left: 1350px;
+    font-family:    Impact, Charcoal, sans-serif;
+    font-size: 20px;
+    width: 100px;
+    height: 40px;
+    color:#ffffff ;
+    background-color: #b10a0a;
+    border: none;
+}
+#sign_up:hover{
+    background-color: #2f0101;
+
+}
+#sign_in{
+    position: relative; top: -80px;left: 1350px;
+    font-family:    Impact, Charcoal, sans-serif;
+    width: 100px;
+    height: 40px;
+    color:#ffffff;
+    background-color: #3545a1 ;
+    border: none;
+    font-size: 20px;
+}
+#sign_in:hover{
+    background-color: #111631 ;
+}
+#finch_image{
+    opacity: 0.07;
+    position: relative;left: 100px;
+    animation: view 10s linear infinite;
+}
 #TopBar{
     background-color: #000000;
     width: 100%;
     height: 100px;
+    overflow-y: hidden
 }
 #TopLine{
     position: relative; top: -50px;
@@ -48,12 +88,53 @@
     color: aliceblue;
     border-radius: 4px;
     border: 1px solid #ff00007e;
+
  
  
+}
+#usage{
+    position: relative; top: -400px; left: 200px;
+    width: 400px;
+    background-color:#00000059 ;
+    border: 1px solid #ffffff;
+    
+
+}
+#usageicon{
+    width: 60px;
+    height: 60px;
+    position: relative;left: 175px;
+}
+#usage_desc,#version_desc,#system_desc{
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #ffffff;
+}
+#versions{
+    position: relative;top: -625px; left:700px; 
+    background-color:#00000059 ;
+    width: 400px;
+    border: 1px solid #ffffff;
+}
+#versionsicon{
+    width: 200px;
+    position: relative; left: 80px;
+
+
+}
+#systems{
+    position: relative; top: -775px; left:1200px;
+    background-color:#00000059 ;
+    width: 400px;
+    border: 1px solid #ffffff;
+}
+#systemicon{
+    width: 75px;
+    position: relative;left: 155px;
 }
 
 
 
 body{
     background: #000000;
+    
 }
