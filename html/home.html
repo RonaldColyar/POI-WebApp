@@ -10,8 +10,8 @@
         <h1 id="main-label">PERSONS OF INTEREST</h1>
         <img id="rotation" src="../Images/rotation.jpg">
         <img id="rotation2" src="../Images/buttonlogo.jpg">
-        <button id="sign_up">SIGN UP</button>
-        <button id="sign_in">SIGN IN</button>
+        <button onclick="state_modifier.display_login_or_signup('signup')"  id="sign_up">SIGN UP</button>
+        <button onclick="state_modifier.display_login_or_signup('login')" id="sign_in">SIGN IN</button>
         <hr id = "TopLine">
      
 
@@ -58,7 +58,7 @@
         <div id="sign_in_inner">
             <input class="entries" id="email_entry"  placeholder="Email.." >
             <input class="entries" id="password_entry" type="password" placeholder="Password..">
-            <button  id="check_login" >Login</button>
+            <button   id="check_login" >Login</button>
             <img src="../Images/authlogo.png" id="login_rotation">
             <button onclick="state_modifier.hide_element('auth_entries')" id="close_login">X</button>
 
@@ -80,6 +80,23 @@
 
 
     </div>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
 
 
  
