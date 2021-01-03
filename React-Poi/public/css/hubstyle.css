@@ -1,0 +1,65 @@
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+#hub_main_wrapper{
+
+   
+    background-color: #4d2323;
+    height: 1200px;
+}
+
+#current_profiles_label{
+    color: #ffffff;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    position: relative; left: 100px;
+}
+#current_profiles_logo{
+    width: 60px;
+    animation: rotate 5s linear infinite;
+    position: relative;left: 370px;top: -70px;
+    
+
+}
+
+#EntryDetailedView{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
+    height: 633px;
+    width: 500px;
+    background-color: #443e3e;
+    position: relative;top: -2590px; left: 1500px;
+}
+#current_profiles_logo2{
+    width: 60px;
+    animation: rotate 5s linear infinite;
+    position: relative; top: -70px; left: -40px;
+}
+#entry_hub_view{
+    height: 653px;
+    width: 550px;
+    background-color: #443e3e;
+    position: relative;top: -653px; left: 930px; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
+    
+}
+#profileview{
+    height: 1300px;
+    width: 500px;
+    background-color: #000;
+    position: relative ;top: -1320px;
+}
+#profile_summary_footer{
+    background-color: #686868;
+    height: 330px;
+    width: 330px;
+    position: relative; left: 600px; top: 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
+}
+#Main_Profile_Image{
+
+    position: relative;left: 600px; top: 10px;
+    height: 330px;
+    width: 330px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.609), 0 6px 20px 0 rgba(0, 0, 0, 0.541);
+}
