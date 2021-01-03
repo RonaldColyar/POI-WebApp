@@ -23,12 +23,25 @@
 
 }
 
+#statsbar{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
+    height: 300px;
+    width: 880px;
+    background-color: #443e3e;
+    position: relative ;top: -2550px; left: 550px;
+    
+}
+#EntryDetailedView:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
+
+}
+
 #EntryDetailedView{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
     height: 633px;
     width: 500px;
     background-color: #443e3e;
-    position: relative;top: -2590px; left: 1500px;
+    position: relative;top: -2600px; left: 1460px;
 }
 #current_profiles_logo2{
     width: 60px;
@@ -39,7 +52,7 @@
     height: 653px;
     width: 550px;
     background-color: #443e3e;
-    position: relative;top: -653px; left: 930px; 
+    position: relative;top: -653px; left: 880px; 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
     
 }
@@ -53,12 +66,12 @@
     background-color: #686868;
     height: 330px;
     width: 330px;
-    position: relative; left: 600px; top: 0px;
+    position: relative; left: 550px; top: 0px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
 }
 #Main_Profile_Image{
 
-    position: relative;left: 600px; top: 10px;
+    position: relative;left: 550px; top: 10px;
     height: 330px;
     width: 330px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.609), 0 6px 20px 0 rgba(0, 0, 0, 0.541);

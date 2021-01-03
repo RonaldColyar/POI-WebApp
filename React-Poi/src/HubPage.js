@@ -3,6 +3,7 @@ import DetailsView from './entrydetailsview'
 import Entryhubview from './entryhubview'
 import Profilesummary from './profilesummary'
 import Profileview from './Profileview'
+import StatsBar from './statsbar'
 
 export default function HubPage(params) {
     console.log(params.match.params.email)
@@ -13,6 +14,7 @@ export default function HubPage(params) {
             <Entryhubview data = "insert data"/>
             <Profileview data = "insert data"/>
             <DetailsView data = "insert data"/>
+            <StatsBar data = "insert data"/>
         </div>
             
     )
