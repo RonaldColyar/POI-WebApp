@@ -95,6 +95,55 @@
     height: 45px;
    
 }
+
+.statwrappers{
+    background-color:#5c5c5c;
+    width: 200px;
+    height: 200px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561); 
+}
+.statwrappers h3 ,.statwrappers h2 {
+    color: #ffffff;
+    font-family: "Lucida Console", "Courier New", monospace;
+    
+
+}
+.statwrappers h3{
+    font-size: 20px;
+    position: relative; left: 50px;
+}
+.statwrappers h2{
+    font-size: 40px;
+    position: relative;left: 85px; top: 50px;
+}
+#entry_num_wrapper{ 
+    position: relative; top: -190px;left: 250px;
+}
+#profile_num_wrapper{
+    position: relative; top: 10px;left: 30px;
+}
+#date_num_wrapper h2 , #date_num_wrapper h3{
+    color: #ffffff;
+    font-family: "Lucida Console", "Courier New", monospace;
+
+    
+}
+#date_num_wrapper h3{
+position: relative;left: 10px;
+}
+#date_num_wrapper h2 {
+    position: relative; top: 70px; left: 30px;
+}
+#date_num_wrapper{
+    position: relative; top: -390px;   left: 470px;
+    background-color:#5c5c5c;
+    width: 200px;
+    height: 200px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561); 
+
+}
 #profile_summary_footer{
     background-color: #686868;
     height: 330px;
