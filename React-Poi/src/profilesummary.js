@@ -15,8 +15,14 @@ export default function Profilesummary() {
                 <h3>Height:</h3>
                 <h3>Location:</h3>
                 <h3>Race/Skin Tone:</h3>
-                <button>New Entry</button>
+                <button id = "add_entry_button">New Entry</button>
+                <div>
+                    <button id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
+                    <button id = "deletebutton"><img id= "deleteImage" src = "../Images/trash.png"></img></button>
+                    <button id = "sharebutton">Share Profile</button>
+                </div>
             </div>
+            
             
         </div>
     )
