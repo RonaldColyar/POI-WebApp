@@ -9,7 +9,39 @@
     background-color: #4d2323;
     height: 1200px;
 }
+#logoutbutton,#contactsbutton{
+    background: none;
+    border: 2px solid #ffffff;
+    height: 150px;
+    width: 140px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
 
+
+    
+}
+#breachbutton{
+    background: none;
+    border: 2px solid #ff0000;
+    height: 150px;
+    width: 140px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff0000;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
+    position: relative; left: 65px; top: 18px;
+}
+#contactsbutton{
+    position: relative;left: 45px;top: 30px;
+}
+#logoutbutton{
+    position: relative;top: 30px; left: 30px;
+}
+#logoutbutton:hover, #contactsbutton:hover,#breachbutton:hover{
+    opacity: 0.5;
+}
 #current_profiles_label{
     color: #ffffff;
     font-family: "Comic Sans MS", cursive, sans-serif;
