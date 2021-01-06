@@ -33,20 +33,47 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
     height: 220px;
     width: 680px;
-    background-color: #443e3e;
+    background-color: #ffffff;
     position: relative ;top: -2550px; left: 550px;
+    
+}
+#DetailedHeader{
+    background: #5c1e1eb9;
+}
+#DetailedHeader h3{
+    color: #ffffff;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 30px;
+    position: relative;left: 130px;
     
 }
 #EntryDetailedView:hover{
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
 
 }
+#ActualDetails{
+    height: 500px;
+}
+#details_level_img{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    
+    
+}
+#details_level_img_wrapper{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
+    position: relative;left: 145px; top: 50px;
 
+}
 #EntryDetailedView{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
     height: 633px;
     width: 500px;
-    background-color: #443e3e;
+    background-color: #c2c2c2;
     position: relative;top: -2600px; left: 1280px;
 }
 #current_profiles_logo2{
@@ -97,7 +124,7 @@
 }
 
 .statwrappers{
-    background-color:#5c5c5c;
+    background-color:#5c1e1eb9;
     width: 200px;
     height: 200px;
     border-radius: 4px;
@@ -137,7 +164,7 @@ position: relative;left: 10px;
 }
 #date_num_wrapper{
     position: relative; top: -390px;   left: 470px;
-    background-color:#5c5c5c;
+    background-color:#5c1e1eb9;
     width: 200px;
     height: 200px;
     border-radius: 4px;
@@ -145,7 +172,7 @@ position: relative;left: 10px;
 
 }
 #profile_summary_footer{
-    background-color: #686868;
+    background-color: #ffffff;
     height: 330px;
     width: 330px;
     position: relative; left: 550px; top: 0px;
@@ -160,7 +187,8 @@ position: relative;left: 10px;
 }
 #add_entry_button{
     position: relative;top: -10px;
-    background: #929292;
+    background:#5c1e1eb9 ;
+    color: #ffffff;
     font-size: 20px;
     width: 325px;
     height: 50px;
