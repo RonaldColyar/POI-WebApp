@@ -52,15 +52,38 @@
 
 }
 #ActualDetails{
-    height: 500px;
+    height: 600px;
 }
 #details_level_img{
     border-radius: 50%;
     width: 200px;
     height: 200px;
-    
+    animation: rotate 16s linear infinite;
     
 }
+
+#entry_details_wrapper{
+    border: 4px solid #ffffff;
+    position: relative;top: 50px;
+    height: 120px;
+
+}
+#entry_date,#entrynickname,#threat_level{ 
+    font-family: "Lucida Console", "Courier New", monospace;
+    color:#000000b9 ;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
+    width: 150px;
+    height: 30px;
+    position: relative;top: 52px; left: 120px;
+    padding-left: 90px;
+
+}
+#entry_details{
+    font-family: "Lucida Console", "Courier New", monospace;
+   
+    
+}
+
 #details_level_img_wrapper{
     border-radius: 50%;
     width: 200px;
