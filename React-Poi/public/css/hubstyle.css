@@ -188,7 +188,39 @@
     animation: rotate 16s linear infinite;
     
 }
-
+#breach_warning_label{
+    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.582), 0 8px 8px 0 rgba(0, 0, 0, 0.561);
+    color: rgba(255, 0, 0, 0.589);
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#breach_confirm_button{
+    background: #ff0000;
+    border: none;
+    width: 300px;
+    height: 60px;
+    font-size: 20px;
+    color: #ffffff;
+    font-family: "Lucida Console", "Courier New", monospace;
+    position: relative;top: 270px;left: -280px;
+}
+#close_breach_popup{
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 50px;
+    position: relative;top: -77px;left: 32px;
+}
+#breach_code_input{
+    position: relative;left: 170px; top: 150px;
+}
+#breach_confirm_wrapper{
+    backdrop-filter: blur(5px);
+    background-color:#000000bc ;
+    width: 1000px;
+    height: 800px;
+    position: relative;top: -3600px; left: 600px;
+    display: none;
+}
 #entry_details_wrapper{
     border: 4px solid #ffffff;
     position: relative;top: 50px;
@@ -210,7 +242,75 @@
    
     
 }
+#entry_popup{
+    position: relative;top: -3700px;left: 525px;
+    display: none;
+    
+}
+#add_entry_label{
+    font-size: 100px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    color: #ffffff;
+    position: relative;left: 110px;
+}
 
+#close_entry_popup{
+    color: #ffffff;
+    font-size: 50px;
+    position: relative; top: -400px; left: 1050px;
+    background: none;
+    border: none;
+
+}
+#Entry_Details_label{
+    position: relative; top: 100px; left: -70px;
+}
+#Entry_Details_desc{
+    position: relative; top: 150px;left: 278px;
+    resize: none;
+    height: 200px;
+    width: 600px;
+    font-size: 30px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
+}
+#threat_level_dropdown{
+    position: relative; top: 100px;left: -110px;
+    width: 120px;
+    height: 60px;
+    font-size: 30px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
+}
+#threat_popup_entries{
+    height: 1000px;
+}
+#Submit_Entry_Button{
+    background: #4d2323;
+    border: none;
+    width: 300px;
+    height: 60px;
+    font-size: 20px;
+    color: #ffffff;
+    position: relative;top: 240px; left: -170px;
+}
+#entry_popup_header{
+    background-color: rgba(0, 0, 0, 0.479);
+    height: 250px;
+}
+#entry_popup_logo{
+    width: 200px;
+    position: relative;left: 800px;top: -250px;
+    animation: view 5s linear infinite;
+
+}
+
+#threat_popup_rotation{
+    animation: rotate 16s linear infinite;
+    border-radius: 50%;
+    width: 230px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
+    position: relative;left: 450px; top: 30px;
+
+}
 #details_level_img_wrapper{
     border-radius: 50%;
     width: 200px;
