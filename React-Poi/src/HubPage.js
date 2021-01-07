@@ -2,6 +2,7 @@ import React from 'react'
 import Accountbar from './accountbar'
 import DetailsView from './entrydetailsview'
 import Entryhubview from './entryhubview'
+import Newpersonpopup from './newpersonpopup'
 import Profilesummary from './profilesummary'
 import Profileview from './Profileview'
 import StatsBar from './statsbar'
@@ -17,6 +18,7 @@ export default function HubPage(params) {
             <DetailsView data = "insert data"/>
             <StatsBar data = "insert data"/>
             <Accountbar data = "insert data" />
+            <Newpersonpopup/>            
         </div>
             
     )

@@ -6,6 +6,7 @@ export default function StatsBar() {
             <div class= "statwrappers"  id = "profile_num_wrapper">
                 <h3 id= "profile_num_header">Profiles</h3>
                 <h2 id = "profile_num"> 0</h2>
+                <button id = "add_person_button"> Add New Person</button>
             </div>
             <div class= "statwrappers" id = "entry_num_wrapper">
                 <h3 id= "entry_num_header">Entries</h3>
