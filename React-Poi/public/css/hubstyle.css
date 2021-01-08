@@ -221,6 +221,90 @@
     position: relative;top: -3600px; left: 600px;
     display: none;
 }
+#contacts_popup_wrapper{
+
+    backdrop-filter: blur(5px);
+    background-color:#000000bc ;
+    width: 1000px;
+    height: 820px;
+    position: relative;top: -3650px; left: 600px;
+    display: none;
+   
+}
+#add_contact_button{
+    background: #4d2323;
+    border: none;
+    width: 300px;
+    height: 60px;
+    font-size: 20px;
+    color: #ffffff;
+    position: relative;left: 330px;top: -10px;
+    
+}
+#close_contact_button{
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 50px;
+    position: relative;top: -730px;left: 640px;
+}
+#contact_label{
+     color: #ffffff;
+     font-size: 50px;
+     font-family: "Comic Sans MS", cursive, sans-serif;
+     position: relative;left: 280px;
+}
+#contacts_list{
+    background-color: #ffffff71;
+    width: 1000px;
+    height: 600px;
+    position: relative;top: -15px;
+}
+
+#create_contacts_wrapper{
+    backdrop-filter: blur(5px);
+    background-color:#000000bc ;
+    width: 600px;
+    height: 420px;
+    position: relative;top: -3400px;left: 700px;
+    display: none;
+}
+#Contact_name_entry,#Contact_email_entry{
+    border: none;
+    font-size: 20px;
+    width: 300px;
+    height: 40px;
+}
+#Contact_name_entry{
+    position: relative;left: 140px;top: 40px;
+}
+#Contact_email_entry{
+    position: relative;left: 140px;top: 60px;
+}
+#create_contact_label{
+    position: relative; left: 130px;
+    color: #ffffff;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#close_add_contact_popup{
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 50px;
+    position: relative;top: -170px; left: 245px;
+}
+#create_contact_button{
+
+    background: #4d2323;
+    border: none;
+    width: 300px;
+    height: 60px;
+    font-size: 20px;
+    color: #ffffff;
+    position: relative;
+    top: 100px; left: 140px;
+}
+
 #entry_details_wrapper{
     border: 4px solid #ffffff;
     position: relative;top: 50px;

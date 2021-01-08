@@ -1,6 +1,8 @@
 import React from 'react'
 import Accountbar from './accountbar'
 import Confirmbreachpopup from './Confirmbreachpopup'
+import ContactsPopup from './ContactsPopup'
+import Createcontactspopup from './Createcontactspopup'
 import DetailsView from './entrydetailsview'
 import Entryhubview from './entryhubview'
 import Newentrypopup from './Newentrypopup'
@@ -22,7 +24,9 @@ export default function HubPage(params) {
             <Accountbar data = "insert data" />
             <Newpersonpopup/>    
             <Newentrypopup/>
-            <Confirmbreachpopup/>        
+            <Confirmbreachpopup/>    
+            <ContactsPopup/>
+            <Createcontactspopup/>    
         </div>
             
     )
