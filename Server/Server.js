@@ -1,6 +1,14 @@
 
 
 
+  this.current_date = function(){
+    var date = new  Date();
+    var current_month = date.getUTCMonth() +1; 
+    var current_day = date.getUTCDate();
+    var current_year = date.getUTCFullYear();
+    var stringified_date = current_month + "/" +current_day+ "/"+ current_year;
+    return stringified_date;
+}
 
 function EmailManager(){
     this.mailer  = require('nodemailer');
@@ -120,7 +128,12 @@ function MongoManager(){
     this.create_person = function(data,response){
         if(this.connected == true){
             const name = data.first +"-"+ data.last;
-            this.update_and_check({email :data.email},{$set:{persons: {[name]:" "}}},response);
+            const metadata = {
+                height : data.height,
+                race : data.race,
+                location :data.location
+            }
+            this.update_and_check({email :data.email},{$set:{persons: {[name]:metadata}}},response);
         }
         else{
             response.json({status:"error"});
@@ -135,7 +148,7 @@ function MongoManager(){
                 $set:{persons :{[name] : 
                     {entries : 
                         {[data.label] :
-                            {threat_level : data.threat_level , data : data.description,date : data.date}}}}}});
+                            {threat_level : data.threat_level , data : data.description,date :current_date()}}}}}});
         }
         else{
             response.json({status:"error"});
@@ -272,7 +285,6 @@ function SessionManager(){
 function ServerRequestHandler (){
      this.express = require("express");
      this.app = this.express();
-     this.fs = require("fs");
      this.mongo_manager = new MongoManager();
      this.session_manager = new SessionManager();
      this.email_manager = new EmailManager();
@@ -410,6 +422,7 @@ function ServerRequestHandler (){
         },request.body.email,request.body.email)
         
     })
+
     this.app.put("/change-code" , function(request,response){
         this.check_auth_and_proceed(function(){
             self.mongo_manager.change_code(request.body.newCode,request.body.email,response)
@@ -422,3 +435,5 @@ function ServerRequestHandler (){
      this.session_manager.locked_accounts = this.mongo_manager.locked_accounts();
      app.listen(8020);
 }
+
+const start_server = new ServerRequestHandler();
