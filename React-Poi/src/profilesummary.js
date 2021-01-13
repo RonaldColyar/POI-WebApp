@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Profilesummary() {
+export default function Profilesummary({data}) {
     return (
         <div id= "profile_summary">
             <div id = "profile_summary_header">
