@@ -1,14 +1,50 @@
 
 
 
+
 function EmailManager(){
     this.mailer  = require('nodemailer');
     this.fs  = require('fs');
-
     //fs.writeFile(filename, data, [encoding], [callback])
     //https://nodemailer.com/message/attachments/
+    this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'PersonsOfInterestEmailService@gmail.com',
+          password: 'blahblah123'
+        }
+      });
 
-    this.send_email  = function(email, data , datatype,formatt){
+    this.create_temp_file = function( persondata){
+        //avoid sending blank files
+        if(persondata.length>0){
+            this.fs.writeFileSync("temp.txt", persondata);
+
+        }
+        
+    }
+    //will send a email to a contact(contactdata) containing multiple persons or one
+    this.send_email  = function( contactdata,persondata){
+        this.create_temp_file(persondata)
+        var Options = {
+            from: 'PersonsOfInterestEmailService@gmail.com',
+            to: contactdata,
+            subject: "person(s) profile(s)",
+            attachments:[{
+                filename: "profile.txt",
+                path: __dirname + "/temp.txt"
+
+            }]
+            
+          };
+        this.transporter.sendMail(Options,function(error, info){
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log(info);
+            }
+        })
 
     }
     
@@ -99,7 +135,7 @@ function MongoManager(){
                 $set:{persons :{[name] : 
                     {entries : 
                         {[data.label] :
-                            {threat_level : data.threat_level , data : data.description,date : data.date}}}}}})
+                            {threat_level : data.threat_level , data : data.description,date : data.date}}}}}});
         }
         else{
             response.json({status:"error"});
@@ -177,6 +213,15 @@ function MongoManager(){
         })
 
     }
+    this.locked_accounts = async function(){
+        var locked = [];
+        await this.collection.find({account_status:"locked"}).toArray(function(error,result){
+            for(i = 0; i<result.length-1; i++ ){
+                locked.push(result[i].email)
+            }
+        })
+        return locked;
+    }
     
 
 }
@@ -220,9 +265,7 @@ function SessionManager(){
         }
         return auth_status;
     }
-    this.add_locked_accounts = function(accounts){
-
-    }
+   
     
 
 }
@@ -241,6 +284,21 @@ function ServerRequestHandler (){
         else{
             response.json({status:"error"})
         }
+     }
+     this.send_email_router = function(request,type){
+         if(type == "all"){
+            const data = self.mongo_manager.gather_all(request.params.userEmail).persons
+            const person_data = data
+            self.email_manager.send_email(request.params.receiver,person_data
+            ,request.params.style)
+         }
+         else{
+            const data = self.mongo_manager.gather_all(request.body.email).persons
+            const person_data = data[request.params.profilename]
+            self.email_manager.send_email(request.params.receiver,person_data
+            ,request.params.style)
+         }
+
      }
      
 
@@ -268,35 +326,31 @@ function ServerRequestHandler (){
             response.json({status:"error"})
         }
      })
-     //identifies the user account
+     //identifies the user account and responds with data
     this.app.get("/userprofiledata/:email/:token", function(request,response){
         this.check_auth_and_proceed(function(){
             response.json({status:"DATA" , data: self.mongo_manager.gather_all(request.params.email)})
         },request.params.email,request.params.token,response)
 
     })
-    //identifies the poi's data
-    this.app.get("/sendemail/:profilename" , function(request,response){
+    //getting or accessing the profile data
+    this.app.get("/sendprofile/:type/:receiver/:userEmail/:token/:profilename" , function(request,response){
         this.check_auth_and_proceed(function(){
-            const data = self.mongo_manager.gather_all(request.body.email).contacts
-            self.email_manager.send_email(request.body.email
-                ,data.persons[request.params.profilename],data,"raw")
-
-        })
-        
+            this.send_email_router(request,request.params.type)
+    },request.params.userEmail,request.params.token,response)
     })
-    this.app.get("/send-to-all/:profilename", function(request,response){
-        this.check_auth_and_proceed(function(){
-            const data = self.mongo_manager.gather_all(request.body.email)
 
-
-        })
-        
-
-    })
+ 
     this.app.post("/add-contact" , function(request,response){
         this.check_auth_and_proceed(function(){
             self.mongo_manager.add_contact()
+        })
+    })
+    this.app.delete("/remove-contact/:token/:email/:contactEmail" , function(request,response){
+        this.check_auth_and_proceed(function(){
+
+            const child_to_remove = "contacts." +request.params.contactEmail ;
+            self.mongo_manager.delete(request.params.email,response,{$set:{[child_to_remove] : ""}});
         })
     })
 
@@ -323,10 +377,15 @@ function ServerRequestHandler (){
         },request.body.email,request.body.email)
         
     })
+    this.app.put("/change-code" , function(request,response){
+        this.check_auth_and_proceed(function(){
+            self.mongo_manager.change_code(request.body.newCode,request.body.email,response)
+        },request.body.email,request.body.token,response)
+    })
     
  
 
 
-
+     this.session_manager.locked_accounts = this.mongo_manager.locked_accounts();
      app.listen(8020);
 }
