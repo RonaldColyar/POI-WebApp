@@ -286,19 +286,40 @@ function ServerRequestHandler (){
         }
      }
      this.send_email_router = function(request,type){
+        const data = self.mongo_manager.gather_all(request.params.userEmail).persons
          if(type == "all"){
-            const data = self.mongo_manager.gather_all(request.params.userEmail).persons
             const person_data = data
             self.email_manager.send_email(request.params.receiver,person_data
-            ,request.params.style)
+            )
          }
          else{
-            const data = self.mongo_manager.gather_all(request.body.email).persons
             const person_data = data[request.params.profilename]
             self.email_manager.send_email(request.params.receiver,person_data
-            ,request.params.style)
+            )
          }
 
+     }
+     this.send_email_to_all_router = function(request,type){
+        var data = self.mongo_manager.gather_all(request.params.userEmail)
+        const contacts = data.contacts
+
+         //send all persons to all contacts
+        if(type == "all"){
+            const person_data = data.persons
+            for(contact in contacts){
+                self.email_manager.send_email(contacts.email,person_data
+                    )
+            }
+         }
+
+         //send one person to all contacts
+         else{
+            const person_data = data.persons[request.params.profilename]
+            for (contact in contacts){
+                self.email_manager.send_email(request.params.receiver,person_data
+                    )
+            }
+         }
      }
      
 
@@ -339,6 +360,18 @@ function ServerRequestHandler (){
             this.send_email_router(request,request.params.type)
     },request.params.userEmail,request.params.token,response)
     })
+    //send one profile to all contacts
+    this.app.get("/send-profile-to-all/:userEmail/:token/:profilename" , function(request,response){
+        this.check_auth_and_proceed(function(){
+            this.mongo_manager.send_email_to_all_router(request,"one")
+        },request.params.userEmail,request.params.token,response)
+    })
+    //sends all profiles to all contacts
+    this.app.get("/send-profile-to-all/:userEmail/:token", function(request,response){
+        this.check_auth_and_proceed(function(){
+            this.mongo_manager.send_email_to_all_router(request,"all")
+        }, request.params.userEmail,request.params.token,response)
+    })
 
  
     this.app.post("/add-contact" , function(request,response){
@@ -360,7 +393,7 @@ function ServerRequestHandler (){
         },request.body.email,request.body.token,response)
 
     })
-
+    //removes all data associated with an account
     this.app.delete("/breached/:email/:token", function(request,response){
         this.check_auth_and_proceed(function(){
             self.mongo_manager.delete_all(request.params.email,response)
