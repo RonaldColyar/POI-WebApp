@@ -1,16 +1,18 @@
 import React from 'react'
+import Profileviewheader from './profileviewheader'
+import Profileviewlist from './Profileviewlist'
 
-export default function Profileview() {
+export default function Profileview({ persons },{display_selector} ) {
+    
     return (
-        <div id = "profileview">
-            <div id = "profile_view_header">
-                <h1 id = "current_profiles_label">Current Profiles</h1>
-                <img id = "current_profiles_logo" src = "/Images/buttonlogo.jpg"></img>
-                <img id = "current_profiles_logo2" src = "/Images/authlogo.png"></img>
-            </div>
-            
-            
-            
-        </div>
+        
+     <>
+    <Profileviewheader/>
+    <Profileviewlist persons = {persons}  display_selector = {display_selector}/>
+    
+    
+    
+    </> 
+       
     )
 }
