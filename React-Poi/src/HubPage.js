@@ -94,9 +94,13 @@ export default function HubPage(params) {
     { var Interface = new Client(params)}
     const [person , changeperson] = useState(null)
     const [all_persons , addperson] = useState(Interface.profile_data)
+    const [contacts_display_state , change_contacts_display_state] = useState(false);
+    const [breach_display_state , change_breach_display_state] = useState(false);
+    const [add_contact_display_state, change_add_contact_display_state] = useState(false);
+    const [new_entry_display_state , change_new_entry_display_state] = useState(false);
+    const [new_person_display_state, change_new_person_display_state]= useState(false);
    
 
-    //not authed or server issues
     
         return (
             
@@ -104,15 +108,46 @@ export default function HubPage(params) {
             <div id = "hub_main_wrapper">    
                 <Profilesummary data = {person}/>
                 <Entryhubview data = {person}/>
-                <Profileview persons = {all_persons} display_selector = {changeperson} />
+                <Profileview
+                 persons = {all_persons} 
+                 display_selector = {changeperson} 
+                 />
+
                 <DetailsView data = {person}/>
-                <StatsBar data = {all_persons}  />
-                <Accountbar actions = {Interface} />
-                <Newpersonpopup actions = {Interface}/>    
-                <Newentrypopup actions = {Interface}/>
-                <Confirmbreachpopup actions = {Interface}/>    
-                <ContactsPopup actions = {Interface} />
-                <Createcontactspopup actions = {Interface}/>    
+                <StatsBar 
+                    data = {all_persons} 
+                    all_selector = {addperson} 
+                />
+                <Accountbar 
+                        contacts_display_controller = {change_contacts_display_state}  
+                        actions = {Interface} 
+                />
+                <Newpersonpopup 
+                        actions = {Interface}
+                        self_state_controller = {change_new_person_display_state}
+                        state = {new_person_display_state}
+                />    
+                <Newentrypopup 
+                        actions = {Interface}
+                        self_state_controller = {change_new_entry_display_state}
+                        state = {new_entry_display_state}
+                />
+                <Confirmbreachpopup 
+                        actions = {Interface}
+                        state = {breach_display_state}
+                        self_state_controller = {change_breach_display_state}
+                />    
+                <ContactsPopup 
+                        add_state_controller = {change_add_contact_display_state} 
+                        self_state_controller = {change_contacts_display_state}
+                        state= {contacts_display_state}  
+                        actions = {Interface} 
+                />
+                <Createcontactspopup 
+                        state= {add_contact_display_state} 
+                        self_state_controller = {change_add_contact_display_state}
+                        actions = {Interface}
+                />    
             </div>
                 
         )
