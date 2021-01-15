@@ -1,23 +1,66 @@
-import React from 'react'
+import React,{useRef} from 'react'
 
-export default function Newpersonpopup() {
+
+export default function Newpersonpopup({state}, {self_state_controller}, {actions},{image_state_controller}) {
+
+    var ref_obj = {
+        first_name : useRef(),
+        last_name : useRef(),
+        height_name : useRef(),
+        location_name : useRef(),
+        race_name : useRef(),    
+        image_input : useRef()
+    }
+    function send_person_creation_request(){
+        const response_obj = {
+            first:ref_obj.first_name.current.value,
+            last : ref_obj.last_name.current.value,
+            height: ref_obj.height_name.current.value,
+            location:ref_obj.location_name.current.value,
+            race : ref_obj.race_name.current.value,
+            image: actions.uploaded_image
+
+        };
+        actions.create_new_person_or_entry(response_obj,"http://localhost:8020/addperson","POST");
+    }
+
     return (
-        <div className= "popupwrappers"  id = "new_person_wrapper">
+        <div className= "popupwrappers" style = {{display:(state? "block":"none")}} id = "new_person_wrapper">
             <div id = "new_person_form">
                 <div id = "new_person_header">
                     <h2>Add New Person</h2>
                     <img src = "../Images/authlogo.png"></img>
-                    <button id = "close_create_person">X</button>
+                    <button id = "close_create_person" onClick= {function(){actions.change_display_state(self_state_controller)}}>X</button>
                 </div>
                 <div id = "new_person_entries">
-                    <input id= "new_first_entry" className = "persondata" placeholder = "First Name..."></input>
-                    <input id= "new_last_entry" className = "persondata"  placeholder = "Last Name..."></input>
-                    <input id= "new_height_entry" className = "persondata" placeholder = "Height..."></input>
-                    <input id= "new_location_entry"  className = "persondata" placeholder = "Location..."></input>
-                    <input id = "new_race_entry"  className = "persondata" placeholder = "Race/Skin Tone..."></input>
-                    <input type='file' id="getFile"  ></input> 
-                    <button id="Image" >Choose Your Profile Image</button>
-                    <button id = "Create_person_button">Create</button>
+                    <input id= "new_first_entry" 
+                        className = "persondata" ref = {ref_obj.first_name} placeholder = "First Name..."></input>
+                    <input id= "new_last_entry" 
+                        className = "persondata" ref = {ref_obj.last_name}  placeholder = "Last Name..."></input>
+                    <input id= "new_height_entry" 
+                        className = "persondata" ref = {ref_obj.height_name} placeholder = "Height..."></input>
+                    <input id= "new_location_entry"  
+                        className = "persondata" ref = {ref_obj.location_name}  placeholder = "Location..."></input>
+                    <input id = "new_race_entry"  
+                        className = "persondata" ref = {ref_obj.race_name} placeholder = "Race/Skin Tone..."></input>
+                        
+                    <input type='file' id="getFile" 
+                            onChange= {
+                                function(){
+                                actions.convert_file(ref_obj.image_input.current.files[0],image_state_controller)
+                                        }} 
+                            ref= {ref_obj.image_input} >       
+                    </input> 
+
+                    <button id="Image" onClick = {
+                        ref_obj.image.click
+                        
+                    }  >Choose Your Profile Image</button>
+                    <button id = "Create_person_button" onClick = {
+                        function(){
+                            send_person_creation_request()
+                        }
+                    }>Create</button>
                     
                 </div>
 				
@@ -27,4 +70,5 @@ export default function Newpersonpopup() {
             
         </div>
     )
+
 }

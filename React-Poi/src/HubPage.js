@@ -1,4 +1,4 @@
-import React , {useState,useRef} from 'react'
+import React , {useState} from 'react'
 import Accountbar from './accountbar'
 import Confirmbreachpopup from './Confirmbreachpopup'
 import ContactsPopup from './ContactsPopup'
@@ -71,9 +71,9 @@ function Client(params){
     }
     this.remove_contact = async function(contact_email){
         const url = "http://localhost:8020/remove-contact/" 
-            +self.token+"/"+self.email+"/"+contact_email
+            +self.token+"/"+self.email+"/"+contact_email;
         const header = {method:"DELETE"};
-        return await self.fetch_and_respond(header,url)
+        return await self.fetch_and_respond(header,url);
     }
      
     this.breach = async function(){
@@ -88,6 +88,32 @@ function Client(params){
         }
 
     }
+    this.change_display_state = function(change_fun){
+        change_fun(prev=>{
+            if(prev == false){
+                return true;
+            }
+            else{
+                return false;
+            }
+        })
+
+
+    }
+    this.convert_file = function(file,state_changer ){
+		//converts image to base 64
+		 var converter = new FileReader();
+	  	 converter.readAsDataURL(file);
+	  	 formatted_image = converter.result;
+	     converter.onloadend = function () {
+            self.uploaded_image = converter.result;
+            self.change_display_state(state_changer); // changing the uploaded status
+        
+            
+            
+	   			
+	}
+}
 }
 
 export default function HubPage(params) {
@@ -99,6 +125,7 @@ export default function HubPage(params) {
     const [add_contact_display_state, change_add_contact_display_state] = useState(false);
     const [new_entry_display_state , change_new_entry_display_state] = useState(false);
     const [new_person_display_state, change_new_person_display_state]= useState(false);
+    const [image_state , change_image_state] = useState(false);
    
 
     
@@ -121,11 +148,14 @@ export default function HubPage(params) {
                 <Accountbar 
                         contacts_display_controller = {change_contacts_display_state}  
                         actions = {Interface} 
+                        breach_display_state = {change_breach_display_state}
                 />
                 <Newpersonpopup 
                         actions = {Interface}
                         self_state_controller = {change_new_person_display_state}
                         state = {new_person_display_state}
+                        image_state = {image_state}
+                        image_state_controller = {change_image_state}
                 />    
                 <Newentrypopup 
                         actions = {Interface}
