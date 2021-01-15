@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Createcontactspopup({state}, {self_state_controller}, {actions}) {
+export default function Createcontactspopup({state,self_state_controller, actions}) {
     return (
         <div id = "create_contacts_wrapper" style = {{display:(state? "block":"none")}} >
             <h1 id = "create_contact_label">Create New Contact</h1>

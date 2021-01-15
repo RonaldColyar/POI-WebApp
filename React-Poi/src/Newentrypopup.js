@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Newentrypopup({state}, {self_state_controller}, {actions}) {
+export default function Newentrypopup({state,self_state_controller, actions}) {
     return (
         <div className= "popupwrappers" style = {{display:(state? "block":"none")}} id= "entry_popup">
             <div id = "entry_popup_header">

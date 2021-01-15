@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Confirmbreachpopup({state}, {self_state_controller}, {actions}) {
+export default function Confirmbreachpopup({state, self_state_controller, actions}) {
     return (
         <div id = "breach_confirm_wrapper" style = {{display:(state? "block":"none")}} >
             <h1 id = "breach_warning_label">This is very dangerous when it comes down to your data!!</h1>

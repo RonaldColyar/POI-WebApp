@@ -1,7 +1,7 @@
 import React,{useRef} from 'react'
 
 
-export default function Newpersonpopup({state}, {self_state_controller}, {actions},{image_state_controller}) {
+export default function Newpersonpopup({state, self_state_controller, actions, image_state_controller}) {
 
     var ref_obj = {
         first_name : useRef(),
@@ -53,7 +53,7 @@ export default function Newpersonpopup({state}, {self_state_controller}, {action
                     </input> 
 
                     <button id="Image" onClick = {
-                        ref_obj.image.click
+                        ref_obj.image_input.click
                         
                     }  >Choose Your Profile Image</button>
                     <button id = "Create_person_button" onClick = {
