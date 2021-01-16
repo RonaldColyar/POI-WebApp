@@ -14,14 +14,13 @@ import StatsBar from './statsbar'
 function Client(params){
     var email = params.match.params.email;
     var token = localStorage.getItem("poitoken");
-    var self = this;
-
-    const fetch_and_respond =async function(header,url){
+ 
+    this.fetch_and_respond =async function(header,url){
         const response = await  fetch(url,header)
         const data = await response.json()
         return data  
     }
-    const logout = async function(){
+    this.logout = async function(){
         const header = {
             method: "POST",
             body : {
@@ -31,52 +30,52 @@ function Client(params){
         }
         return await fetch_and_respond(header,"http://localhost:8020/logout")
     }
-    const change_code = async function(data){
-        data.token = token;
-        data.email = email;
+    this.change_code = async function(data){
+        data.token = this.token;
+        data.email = this.email;
         const header = {method:"POST",body:data}
-        return await fetch_and_respond(header,"http://localhost:8020/change-code")
+        return await this.fetch_and_respond(header,"http://localhost:8020/change-code")
     }
-    const profile_data = async function(){
-        const url = "http://localhost:8020/userprofiledata/" + self.email+"/"+self.token
+    this.profile_data = async function(){
+        const url = "http://localhost:8020/userprofiledata/" + this.email+"/"+this.token
         const header = {method:"GET"} ;
-        return await  fetch_and_respond(header,url)
+        return await  this.fetch_and_respond(header,url)
     }
 
-    const create_new_person_or_entry = async function(data,url,method){
-        data.token =token;
-        data.email = email;
+    this.create_new_person_or_entry = async function(data,url,method){
+        data.token =this.token;
+        data.email = this.email;
         const header = { method : method, body : data};
-        return await fetch_and_respond(header,url);
+        return await this.fetch_and_respond(header,url);
     }
 
-    const delete_all_data =async  function(){
-        const url = "http://localhost:8020/breached/"+email+"/"+token ;
+    this.delete_all_data =async  function(){
+        const url = "http://localhost:8020/breached/"+this.email+"/"+this.token ;
         const header = {method:"DELETE"};
-        return await fetch_and_respond(header,url);
+        return await this.fetch_and_respond(header,url);
     }
 
-    const send_profile_to_all =async function(profile_name, type){
+    this.send_profile_to_all =async function(profile_name, type){
         const header = {method:"GET"};
-        const base_url = "http://localhost:8020/send-profile-to-all/" + email+"/"+token;
+        const base_url = "http://localhost:8020/send-profile-to-all/" + this.email+"/"+this.token;
         if(type == "all"){//send all profiles to all contacts
-           return await fetch_and_respond(header,base_url);
+           return await this.fetch_and_respond(header,base_url);
         }
         else{//send one profile to all contacts
             const all_url = base_url+"/"+profile_name;
-            return await fetch_and_respond(header,all_url);
+            return await this.fetch_and_respond(header,all_url);
         }
 
 
     }
-    const remove_contact = async function(contact_email){
+    this.remove_contact = async function(contact_email){
         const url = "http://localhost:8020/remove-contact/" 
-            +token+"/"+email+"/"+contact_email;
+            +this.token+"/"+this.email+"/"+contact_email;
         const header = {method:"DELETE"};
-        return await fetch_and_respond(header,url);
+        return await this.fetch_and_respond(header,url);
     }
      
-    const breach = async function(){
+    this.breach = async function(){
         
         var email_result = await send_profile_to_all(null , "all")
         var delete_result = await delete_all_data();
@@ -88,7 +87,7 @@ function Client(params){
         }
 
     }
-    const change_display_state = function(change_fun){
+    this.change_display_state = function(change_fun){
         change_fun(prev=>{
             if(prev == false){
                 return true;
@@ -100,13 +99,13 @@ function Client(params){
 
 
     }
-    const convert_file = function(file,state_changer ){
+    this.convert_file = function(file,state_changer ){
 		//converts image to base 64
 		 var converter = new FileReader();
 	  	 converter.readAsDataURL(file);
 	  	
 	     converter.onloadend = function () {
-            self.uploaded_image = converter.result;
+            this.uploaded_image = converter.result;
             change_display_state(state_changer); // changing the uploaded status
         
             
@@ -114,6 +113,8 @@ function Client(params){
 	   			
 	}
 }
+
+
 }
 
 export default function HubPage(params) {
