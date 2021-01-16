@@ -15,7 +15,7 @@ function EmailManager(){
     this.fs  = require('fs');
     //fs.writeFile(filename, data, [encoding], [callback])
     //https://nodemailer.com/message/attachments/
-    this.transporter = nodemailer.createTransport({
+    this.transporter = this.mailer.createTransport({
         service: 'gmail',
         auth: {
           user: 'PersonsOfInterestEmailService@gmail.com',
@@ -166,6 +166,7 @@ function MongoManager(){
                 code :  data.code
             }
             self.collection.insertOne(user_object , function(error , result){
+                console.log("creation")
                 self.CUD_error_check(error,response)
             });
         }
@@ -433,7 +434,7 @@ function ServerRequestHandler (){
 
 
      this.session_manager.locked_accounts = this.mongo_manager.locked_accounts();
-     app.listen(8020);
+     this.app.listen(8020);
 }
 
 const start_server = new ServerRequestHandler();
