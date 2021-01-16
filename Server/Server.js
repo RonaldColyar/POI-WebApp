@@ -77,7 +77,7 @@ function MongoManager(){
     const self = this;
 
     //makes the user collection accessible by other class methods
-    this.connect = function(){
+    this.connect = function(session_manager){
         this.mongo.connect(this.uri,function(error ,client){
             if(error){
                 console.log("error connecting to database")
@@ -86,6 +86,7 @@ function MongoManager(){
                 const db = client.db("POI");
                 self.collection = db.collection("users");
                 self.connected = true;
+                session_manager.locked_accounts = self.locked_accounts();
             }
         })
        
@@ -286,15 +287,18 @@ function SessionManager(){
 function ServerRequestHandler (){
      this.express = require("express");
      this.app = this.express();
-     this.mongo_manager = new MongoManager();
      this.session_manager = new SessionManager();
+     this.mongo_manager = new MongoManager();
+     this.mongo_manager.connect(this.session_manager);
      this.email_manager = new EmailManager();
      var self = this;
      this.check_auth_and_proceed = function(res,email,token,response){
         if(self.session_manager.is_authed(email,token) == true){
+            console.log("works")
             res()
         }
         else{
+            response.setHeader("Content-Type","application/json")
             response.json({status:"error"})
         }
      }
@@ -334,6 +338,16 @@ function ServerRequestHandler (){
             }
          }
      }
+     this.app.all('*', function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Credentials', 'true');
+        res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+        res.header(
+          'Access-Control-Allow-Headers',
+          'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+        );
+        next();
+      });
      
 
      this.app.post("/signup" , function(request,response){
@@ -362,38 +376,40 @@ function ServerRequestHandler (){
      })
      //identifies the user account and responds with data
     this.app.get("/userprofiledata/:email/:token", function(request,response){
-        this.check_auth_and_proceed(function(){
+        
+        self.check_auth_and_proceed(function(){
+            console.log("works2")
             response.json({status:"DATA" , data: self.mongo_manager.gather_all(request.params.email)})
         },request.params.email,request.params.token,response)
 
     })
     //getting or accessing the profile data
     this.app.get("/sendprofile/:type/:receiver/:userEmail/:token/:profilename" , function(request,response){
-        this.check_auth_and_proceed(function(){
-            this.send_email_router(request,request.params.type)
+        self.check_auth_and_proceed(function(){
+            self.send_email_router(request,request.params.type)
     },request.params.userEmail,request.params.token,response)
     })
     //send one profile to all contacts
     this.app.get("/send-profile-to-all/:userEmail/:token/:profilename" , function(request,response){
-        this.check_auth_and_proceed(function(){
-            this.mongo_manager.send_email_to_all_router(request,"one")
+        self.check_auth_and_proceed(function(){
+            self.mongo_manager.send_email_to_all_router(request,"one")
         },request.params.userEmail,request.params.token,response)
     })
     //sends all profiles to all contacts
     this.app.get("/send-profile-to-all/:userEmail/:token", function(request,response){
-        this.check_auth_and_proceed(function(){
-            this.mongo_manager.send_email_to_all_router(request,"all")
+        self.check_auth_and_proceed(function(){
+            self.mongo_manager.send_email_to_all_router(request,"all")
         }, request.params.userEmail,request.params.token,response)
     })
 
  
     this.app.post("/add-contact" , function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
             self.mongo_manager.add_contact()
         })
     })
     this.app.delete("/remove-contact/:token/:email/:contactEmail" , function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
 
             const child_to_remove = "contacts." +request.params.contactEmail ;
             self.mongo_manager.delete(request.params.email,response,{$set:{[child_to_remove] : ""}});
@@ -401,39 +417,41 @@ function ServerRequestHandler (){
     })
 
     this.app.post("/logout", function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
             self.session_manager.remove_session(request.body.email,response)
         },request.body.email,request.body.token,response)
 
     })
     //removes all data associated with an account
     this.app.delete("/breached/:email/:token", function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
             self.mongo_manager.delete_all(request.params.email,response)
         },request.params.email,request.params.token,response)
     })
     this.app.post("/addperson",function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
                 self.mongo_manager.create_person(request.body,response)
         },request.body.email,request.body.token)
     })
     this.app.put("/addentry",function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
             self.mongo_manager.create_entry(request.body,response)
         },request.body.email,request.body.email)
         
     })
 
     this.app.put("/change-code" , function(request,response){
-        this.check_auth_and_proceed(function(){
+        self.check_auth_and_proceed(function(){
             self.mongo_manager.change_code(request.body.newCode,request.body.email,response)
         },request.body.email,request.body.token,response)
     })
+   
+      
     
  
 
 
-     this.session_manager.locked_accounts = this.mongo_manager.locked_accounts();
+     
      this.app.listen(8020);
 }
 
