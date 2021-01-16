@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function StatsBar() {
+export default function StatsBar({data,all_selector}) {
     return (
         <div id = "statsbar">
             <div class= "statwrappers"  id = "profile_num_wrapper">

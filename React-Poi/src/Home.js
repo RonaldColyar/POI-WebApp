@@ -6,6 +6,11 @@ function Client(){
     this.login= function(){
         
     }
+    this.fetch_and_respond =async function(header,url){
+        const response = await  fetch(url,header)
+        const data = await response.json()
+        return data  
+    }
 }
 export default function HomePage() {
         
