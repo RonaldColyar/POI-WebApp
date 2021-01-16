@@ -6,14 +6,14 @@ export default function Profileviewchild({person,change_selected}) {
     
         if(typeof image === "undefined"){
             return (
-                <div onClick = {
+                <div className = "PersonsWrapper" onClick = {
                     change_selected(prev=>{
                         return person;
                     })
 
                 }>
-                    <img src = "..Images/defaultimage.png"></img>
-                    <h1>{name}</h1>
+                    <img className = "PersonsImages" src = "../Images/defaultimage.png"></img>
+                    <h1 className = "PersonsNames">{name}</h1>
                 </div>
             )
         }

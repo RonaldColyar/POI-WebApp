@@ -8,7 +8,8 @@ import Entryhubview from './entryhubview'
 import Newentrypopup from './Newentrypopup'
 import Newpersonpopup from './newpersonpopup'
 import Profilesummary from './profilesummary'
-import Profileview from './Profileview'
+import Profileviewheader from './profileviewheader'
+
 import StatsBar from './statsbar'
 
 function Client(params){
@@ -16,55 +17,55 @@ function Client(params){
     this.token = localStorage.getItem("poitoken");
 
  
-    this.fetch_and_respond =async function(header,url){
-        const response = await  fetch(url,header)
+    this.fetch_and_respond =async function(options,url){
+        const response = await  fetch(url,options)
         const data = await response.json()
         return data  
     }
     this.logout = function(){
-        const header = {
+        const options = {
             method: "POST",
             body : {
                 email:this.email,
                 token:this.token
             }
         }
-        return  this.fetch_and_respond(header,"http://localhost:8020/logout")
+        return  this.fetch_and_respond(options,"http://localhost:8020/logout")
     }
     this.change_code =  function(data){
         data.token = this.token;
         data.email = this.email;
-        const header = {method:"POST",body:data}
-        return  this.fetch_and_respond(header,"http://localhost:8020/change-code")
+        const options = {method:"POST",body:data}
+        return  this.fetch_and_respond(options,"http://localhost:8020/change-code")
     }
     this.profile_data =  function(){
         const url = "http://localhost:8020/userprofiledata/" + this.email+"/"+this.token
-        const header = {method:"GET"} ;
-        return  this.fetch_and_respond(header,url)
+        const options = {method:"GET"} ;
+        return  this.fetch_and_respond(options,url)
     }
 
     this.create_new_person_or_entry =  function(data,url,method){
         data.token =this.token;
         data.email = this.email;
-        const header = { method : method, body : data};
-        return this.fetch_and_respond(header,url);
+        const options = { method : method, body : data};
+        return this.fetch_and_respond(options,url);
     }
 
     this.delete_all_data =  function(){
         const url = "http://localhost:8020/breached/"+this.email+"/"+this.token ;
-        const header = {method:"DELETE"};
-        return  this.fetch_and_respond(header,url);
+        const options = {method:"DELETE"};
+        return  this.fetch_and_respond(options,url);
     }
 
     this.send_profile_to_all = function(profile_name, type){
-        const header = {method:"GET"};
+        const options = {method:"GET"};
         const base_url = "http://localhost:8020/send-profile-to-all/" + this.email+"/"+this.token;
         if(type == "all"){//send all profiles to all contacts
-           return this.fetch_and_respond(header,base_url);
+           return this.fetch_and_respond(options,base_url);
         }
         else{//send one profile to all contacts
             const all_url = base_url+"/"+profile_name;
-            return  this.fetch_and_respond(header,all_url);
+            return  this.fetch_and_respond(options,all_url);
         }
 
 
@@ -72,8 +73,8 @@ function Client(params){
     this.remove_contact = function(contact_email){
         const url = "http://localhost:8020/remove-contact/" 
             +this.token+"/"+this.email+"/"+contact_email;
-        const header = {method:"DELETE"};
-        return  this.fetch_and_respond(header,url);
+        const options = {method:"DELETE"};
+        return  this.fetch_and_respond(options,url);
     }
      
     this.breach = async function(){
@@ -120,7 +121,6 @@ function Client(params){
 
 export default function HubPage(params) {
     var Interface = new Client(params)
- 
     const [person , changeperson] = useState(null)
     const [all_persons , addperson] = useState(null)
     const [contacts_display_state , change_contacts_display_state] = useState(false);
@@ -131,8 +131,8 @@ export default function HubPage(params) {
     const [image_state , change_image_state] = useState(false);    useEffect(async()=>{
     addperson((prev)=>{
             
-           // return await  Interface.profile_data();
-           return [{"ron" :{name:"Ok"}}]
+            //return await  Interface.profile_data();
+            return [{"ron" :{name:"Ok"}}]
             
         })
     },[])
@@ -145,7 +145,8 @@ export default function HubPage(params) {
             <div id = "hub_main_wrapper">    
                 <Profilesummary data = {person}/>
                 <Entryhubview data = {person}/>
-                <Profileview
+                
+                <Profileviewheader
                  persons = {all_persons} 
                  display_selector = {changeperson} 
                  />

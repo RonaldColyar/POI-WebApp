@@ -537,3 +537,19 @@ position: relative;left: 10px;
     width: 330px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.609), 0 6px 20px 0 rgba(0, 0, 0, 0.541);
 }
+
+.PersonsNames{
+    color:#ffffff;
+    position: relative; top: -154px; left: 180px;
+    font-size: 50px;
+
+}
+.PersonsImages{
+    width: 175px;
+}
+.PersonsWrapper{
+    background-color: #443e3e;
+    border: 2px solid #ffffff;
+    height: 177px;
+    
+}

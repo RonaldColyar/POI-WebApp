@@ -1,29 +1,75 @@
 import React , {useState} from 'react'
-
+import { useHistory } from "react-router-dom";
 
 
 function Client(){
-    this.login= function(){
+    this.login_status_check = function(result){
+        if(result.status == "AUTHED"){
+            localStorage.setItem("POIEMAIL", email );
+            localStorage.setItem("POITOKEN",result.auth_token );
+            useHistory.push("/accounts/" + email);
+        }
+        else{
+            //popup
+        }
+    }
+
+    this.sign_up_status_check = function(result){
+        if(result.status == "success"){
+            //popup
+        }
+        else{
+            //popup
+        }
+
+    }
+
+    this.login_or_signup= async function(email,code,type){
+        if(type == "login"){
+            const url = "http://localhost:8020/login";
+            const options = {method : "POST",body : {email:email,code:code}};
+            const result = await this.fetch_and_respond(options,url); 
+            this.login_status_check(result);
+        }
+        else{
+            const url = "http://localhost:8020/signup";
+            const options = {method : "POST",body : {email:email,code:code}};
+            const result = await this.fetch_and_respond(options,url); 
+            this.sign_up_status_check(result);
+        }
+
         
     }
-    this.fetch_and_respond =async function(header,url){
-        const response = await  fetch(url,header)
-        const data = await response.json()
-        return data  
+
+    this.fetch_and_respond =async function(options,url){
+        const response = await  fetch(url,options);
+        const data = await response.json();
+        return data  ;
     }
 }
+
+
 export default function HomePage() {
-        
-    
+    var client = new Client();
+    const [sign_up_state, change_sign_up_state] = useState(false);
+    const [login_state, change_login_state] = useState(false);
+
     return (
 <>
-
 <div id="TopBar">
     <h1 id="main-label">PERSONS OF INTEREST</h1>
     <img id="rotation" src="/Images/rotation.jpg"></img>
     <img id="rotation2" src="/Images/buttonlogo.jpg"></img>
-    <button onClick="state_modifier.display_login_or_signup('signup')"  id="sign_up">SIGN UP</button>
-    <button onclick="state_modifier.display_login_or_signup('login')" id="sign_in">SIGN IN</button>
+    <button onClick={
+        change_sign_up_state(prev=>{
+            return true;
+        })
+    }  id="sign_up">SIGN UP</button>
+    <button onClick = {
+        change_login_state(prev =>{
+            return true;
+        })
+    } id="sign_in">SIGN IN</button>
     <hr id = "TopLine"></hr>
  
 
@@ -67,23 +113,27 @@ export default function HomePage() {
 
 </div>
 <div id="auth_entries">
-    <div id="sign_in_inner">
+    <div id="sign_in_inner" style = {{display:(sign_up_state? "block":"none")}}>
         <input class="entries" id="email_entry"  placeholder="Email.." ></input>
         <input class="entries" id="password_entry" type="password" placeholder="Password.."></input>
         <input class="entries" id="code_entry" type="password" placeholder="Special Code.."></input>
         <button   id="check_login" >Login</button>
         <img src="/Images/authlogo.png" id="login_rotation"></img>
-        <button onclick="state_modifier.hide_element('auth_entries')" id="close_login">X</button>
+        <button onclick = {change_login_state(prev=>{
+            return false;
+        })}  id="close_login">X</button>
 
     </div>
-    <div id="sign_up_inner">
+    <div id="sign_up_inner" style = {{display:(login_state? "block":"none")}} >
         <input class="entries" id="signup_email_entry"  placeholder="Email.." ></input>
-        <input class="entries" id="signup_password_entry" type="password" placeholder="Password.."></input>
-        <input class="entries" id="password_entry_verify" type="password" placeholder="Verify Password.."></input>
         <input class="entries" id="Special_Code" type="password" placeholder="Special Verification Code.."></input>
         <button id="check_signup" >Sign Up</button>
         <img src="/Images/authlogo.png" id="signup_rotation"></img>
-        <button onclick="state_modifier.hide_element('auth_entries')" id="close_signup">X</button>
+        <button id="close_signup" onClick = {
+            change_sign_up_state(prev =>{
+                return false;
+            })
+        }> X</button>
     </div>
    
 
