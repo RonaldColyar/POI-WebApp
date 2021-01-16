@@ -11,7 +11,6 @@ export default function Accountbar({actions, contacts_display_controller ,breach
             //popup
         }   
     }
-
     
     return (
         <div id = "accountbar">

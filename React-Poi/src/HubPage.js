@@ -71,7 +71,7 @@ function Client(params){
     }
     const remove_contact = async function(contact_email){
         const url = "http://localhost:8020/remove-contact/" 
-            +self.token+"/"+email+"/"+contact_email;
+            +token+"/"+email+"/"+contact_email;
         const header = {method:"DELETE"};
         return await fetch_and_respond(header,url);
     }
