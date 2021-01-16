@@ -28,7 +28,7 @@ function Client(params){
                 token:token
             }
         }
-        return await fetch_and_respond(header,"http://localhost:8020/logout")
+        return await this.fetch_and_respond(header,"http://localhost:8020/logout")
     }
     this.change_code = async function(data){
         data.token = this.token;
@@ -77,8 +77,8 @@ function Client(params){
      
     this.breach = async function(){
         
-        var email_result = await send_profile_to_all(null , "all")
-        var delete_result = await delete_all_data();
+        var email_result = await this.send_profile_to_all(null , "all")
+        var delete_result = await this.delete_all_data();
         if(email_result.status == "error" || delete_result.status == "error"){
             //user popup
         }
@@ -106,7 +106,7 @@ function Client(params){
 	  	
 	     converter.onloadend = function () {
             this.uploaded_image = converter.result;
-            change_display_state(state_changer); // changing the uploaded status
+            this.change_display_state(state_changer); // changing the uploaded status
         
             
             
