@@ -10,10 +10,7 @@
         transform: rotate(360deg);
     }
 }
-*{
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
+
 
 #LuringMessage{
     color: #ffffff;

@@ -132,7 +132,14 @@ export default function HubPage(params) {
     addperson((prev)=>{
             
             //return await  Interface.profile_data();
-            return [{"ron" :{name:"Ok"}}]
+            return [
+            {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" }},
+            {"josh-king" :{height:"5'5" , location:"trinidad" , race :"white" }},
+            {"kell-test" :{height:"5'1" , location:"chicago" , race :"white" }} ,
+             {"kelvin-second":{height:"5'3" , location:"la" , race :"white" }},
+             {"ashe-josh":{height:"5'11" , location:"outskirts" , race :"white" }},
+             {"kelvin-super":{height:"5'4" , location:"home" , race :"white" }},
+              {"ashe-over":{height:"5'2" , location:"unknown" , race :"white" }}] //test
             
         })
     },[])
@@ -143,7 +150,10 @@ export default function HubPage(params) {
             
             
             <div id = "hub_main_wrapper">    
-                <Profilesummary data = {person}/>
+                <Profilesummary 
+                    actions = {Interface} 
+                    entry_popup_display_selector = {change_new_entry_display_state}
+                    person = {person}/>
                 <Entryhubview data = {person}/>
                 
                 <Profileviewheader

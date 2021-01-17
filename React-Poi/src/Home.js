@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 
 function Client(){
-    this.login_status_check = function(result){
+    this.login_status_check = function(email,result){
         if(result.status == "AUTHED"){
             localStorage.setItem("POIEMAIL", email );
             localStorage.setItem("POITOKEN",result.auth_token );
@@ -29,7 +29,7 @@ function Client(){
             const url = "http://localhost:8020/login";
             const options = {method : "POST",body : {email:email,code:code}};
             const result = await this.fetch_and_respond(options,url); 
-            this.login_status_check(result);
+            this.login_status_check(result,email);
         }
         else{
             const url = "http://localhost:8020/signup";

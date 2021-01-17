@@ -8,6 +8,7 @@
         opacity: 0.2;
     }
 }
+
 #hub_main_wrapper{
 
    
@@ -428,6 +429,8 @@
     width: 500px;
     background-color: #000;
     position: relative ;top: -1320px;
+  
+    overflow-y:scroll;
 }
 #deletebutton,#editbutton{
     border-radius: 4px;
