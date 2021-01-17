@@ -556,3 +556,25 @@ position: relative;left: 10px;
     height: 177px;
     
 }
+.contacts_child{
+    background-color: #ffffff;
+    height: 80px;
+}
+.contacts_child h1{
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.contacts_child:hover{
+    opacity: 0.6;
+
+    
+}
+.contacts_child button{
+    position: relative;top: -70px; left: 790px;
+    background-color: #771212;
+    border: none;
+    width: 155px;
+    height: 60px;
+}
+.entry_listing{
+    background-color: #ffffff;
+}

@@ -128,20 +128,28 @@ export default function HubPage(params) {
     const [add_contact_display_state, change_add_contact_display_state] = useState(false);
     const [new_entry_display_state , change_new_entry_display_state] = useState(false);
     const [new_person_display_state, change_new_person_display_state]= useState(false);
-    const [image_state , change_image_state] = useState(false);    useEffect(async()=>{
-    addperson((prev)=>{
-            
-            //return await  Interface.profile_data();
+    const [image_state , change_image_state] = useState(false);   
+    const [Contacts , addcontact] = useState([]);
+    const [entry ,change_selected_entry] = useState(null)
+    useEffect(async()=>{
+        //const profile_data = await  Interface.profile_data();
+        addperson((prev)=>{
+            //return profile_data.persons
             return [
-            {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" }},
+            {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" , 
+                        entries:[{"kill":{level:3,date:"1/3/2020", details:"nothing"}}]}},
             {"josh-king" :{height:"5'5" , location:"trinidad" , race :"white" }},
             {"kell-test" :{height:"5'1" , location:"chicago" , race :"white" }} ,
-             {"kelvin-second":{height:"5'3" , location:"la" , race :"white" }},
-             {"ashe-josh":{height:"5'11" , location:"outskirts" , race :"white" }},
-             {"kelvin-super":{height:"5'4" , location:"home" , race :"white" }},
-              {"ashe-over":{height:"5'2" , location:"unknown" , race :"white" }}] //test
-            
+            {"kelvin-second":{height:"5'3" , location:"la" , race :"white" }},
+            {"ashe-josh":{height:"5'11" , location:"outskirts" , race :"white" }},
+            {"kelvin-super":{height:"5'4" , location:"home" , race :"white" }},
+            {"ashe-over":{height:"5'2" , location:"unknown" , race :"white" }}] //test       
         })
+        addcontact((prev)=>{
+            // return profile_data.contacts
+            return [{email:"kellz@gmail.com"}]
+        })
+
     },[])
    
 
@@ -154,17 +162,18 @@ export default function HubPage(params) {
                     actions = {Interface} 
                     entry_popup_display_selector = {change_new_entry_display_state}
                     person = {person}/>
-                <Entryhubview data = {person}/>
+                <Entryhubview change_selected_entry = {change_selected_entry} person = {person}/>
                 
                 <Profileviewheader
                  persons = {all_persons} 
                  display_selector = {changeperson} 
                  />
 
-                <DetailsView data = {person}/>
+                <DetailsView entry = {entry}/>
                 <StatsBar 
                     data = {all_persons} 
                     all_selector = {addperson} 
+                    person_popup_display_selector ={change_new_person_display_state}
                 />
                 <Accountbar 
                         contacts_display_controller = {change_contacts_display_state}  
@@ -191,7 +200,8 @@ export default function HubPage(params) {
                 />    
                 <ContactsPopup 
                         add_state_controller = {change_add_contact_display_state} 
-                        self_state_controller = {change_contacts_display_state}
+                        self_state_controller = {change_contacts_display_state} 
+                        data = {Contacts}
                         state= {contacts_display_state}  
                         actions = {Interface} 
                 />
