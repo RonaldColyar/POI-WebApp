@@ -16,7 +16,6 @@ function Client(params){
     this.email = params.match.params.email;
     this.token = localStorage.getItem("poitoken");
 
- 
     this.fetch_and_respond =async function(options,url){
         const response = await  fetch(url,options)
         const data = await response.json()
@@ -172,7 +171,7 @@ export default function HubPage(params) {
                 <DetailsView entry = {entry}/>
                 <StatsBar 
                     data = {all_persons} 
-                    all_selector = {addperson} 
+                    
                     person_popup_display_selector ={change_new_person_display_state}
                 />
                 <Accountbar 

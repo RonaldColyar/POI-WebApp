@@ -51,6 +51,10 @@ function Client(){
 
 export default function HomePage() {
     var client = new Client();
+    const code_input_ref = useRef();
+    const email_input_ref = useRef();
+    const sign_up_code_input_ref = useRef();
+    const sign_up_email_input_ref = useRef();
     const [sign_up_state, change_sign_up_state] = useState(false);
     const [login_state, change_login_state] = useState(false);
 
@@ -114,10 +118,9 @@ export default function HomePage() {
 </div>
 <div id="auth_entries">
     <div id="sign_in_inner" style = {{display:(sign_up_state? "block":"none")}}>
-        <input class="entries" id="email_entry"  placeholder="Email.." ></input>
-        <input class="entries" id="password_entry" type="password" placeholder="Password.."></input>
-        <input class="entries" id="code_entry" type="password" placeholder="Special Code.."></input>
-        <button   id="check_login" >Login</button>
+        <input class="entries" ref = {email_input_ref} id="email_entry"  placeholder="Email.." ></input>
+        <input class="entries" ref = {code_input_ref}  id="code_entry" type="password" placeholder="Special Code.."></input>
+        <button onClick = {client.login_or_signup()}  id="check_login" >Login</button>
         <img src="/Images/authlogo.png" id="login_rotation"></img>
         <button onclick = {change_login_state(prev=>{
             return false;
@@ -125,8 +128,8 @@ export default function HomePage() {
 
     </div>
     <div id="sign_up_inner" style = {{display:(login_state? "block":"none")}} >
-        <input class="entries" id="signup_email_entry"  placeholder="Email.." ></input>
-        <input class="entries" id="Special_Code" type="password" placeholder="Special Verification Code.."></input>
+        <input class="entries" ref = {sign_up_email_input_ref} id="signup_email_entry"  placeholder="Email.." ></input>
+        <input class="entries" ref = {sign_up_code_input_ref} id="Special_Code" type="password" placeholder="Special Verification Code.."></input>
         <button id="check_signup" >Sign Up</button>
         <img src="/Images/authlogo.png" id="signup_rotation"></img>
         <button id="close_signup" onClick = {

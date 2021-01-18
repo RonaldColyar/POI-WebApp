@@ -14,7 +14,7 @@ if (person) {
                     <div id = "entries">
                         {Object.keys(person[name].entries).map(label =>{
                             /* 
-                                person sample data:
+                                "person" sample data:
                         {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" , 
                         entries:{"kill":{level:3,date:"1/3/2020", details:"nothing"}}}}                
                             */
