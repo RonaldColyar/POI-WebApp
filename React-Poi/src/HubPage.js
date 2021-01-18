@@ -137,7 +137,7 @@ export default function HubPage(params) {
             //return profile_data.persons
             return [
             {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" , 
-                        entries:[{"kill":{level:3,date:"1/3/2020", details:"nothing"}}]}},
+                        entries:{"kill":{level:3,date:"1/3/2020", details:"nothing"}}}},
             {"josh-king" :{height:"5'5" , location:"trinidad" , race :"white" }},
             {"kell-test" :{height:"5'1" , location:"chicago" , race :"white" }} ,
             {"kelvin-second":{height:"5'3" , location:"la" , race :"white" }},

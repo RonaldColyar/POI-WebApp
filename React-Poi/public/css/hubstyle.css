@@ -312,7 +312,7 @@
     height: 120px;
 
 }
-#entry_date,#entrynickname,#threat_level{ 
+#entry_date,#entrynickname{ 
     font-family: "Lucida Console", "Courier New", monospace;
     color:#000000b9 ;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
@@ -320,6 +320,18 @@
     height: 30px;
     position: relative;top: 52px; left: 120px;
     padding-left: 90px;
+
+}
+#threat_level{
+    font-family: "Lucida Console", "Courier New", monospace;
+    color:#000000b9 ;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.582), 0 12px 40px 0 rgba(0, 0, 0, 0.561);
+    width: 200px;
+    height: 30px;
+    font-size: 20px;
+    position: relative;top: 52px; left: 120px;
+    padding-left: 40px;
+    ;
 
 }
 #entry_details{
@@ -576,5 +588,14 @@ position: relative;left: 10px;
     height: 60px;
 }
 .entry_listing{
+    background-color: #727171;
+    height: 80px;
+}
+.entry_listing:hover{
     background-color: #ffffff;
+}
+#entry_hub_label{
+    font-family: "Lucida Console", "Courier New", monospace;
+    color: #ffffff;
+
 }

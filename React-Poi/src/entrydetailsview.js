@@ -3,7 +3,7 @@ import React from 'react'
 export default function DetailsView({entry}) {
     if (entry) {
         const label = Object.keys(entry)
-        const level_path = "../Image/level"+entry[label].label+".png"
+        console.log(entry)
         return(
         <div id= "EntryDetailedView">
             <div id = "DetailedHeader">
@@ -11,13 +11,12 @@ export default function DetailsView({entry}) {
             </div>
             <div id= "ActualDetails">
                 <div id ="details_level_img_wrapper" >
-                    <img id= "details_level_img" src = {level_path}></img>
+                    <img id= "details_level_img" src = {"../Images/level"+entry.level+".png"}></img>
                 </div>
-                <h3 id = "entrynickname" >{label}</h3>
-                <h3 id = "entry_date">{entry[label].date}</h3>
-                <h3 id = "threat_level">{"Threat Level:" + entry[label].level}</h3>
+                <h3 id = "entry_date">{entry.date}</h3>
+                <h3 id = "threat_level">{"Threat Level:" + entry.level}</h3>
                 <div id = "entry_details_wrapper">
-                    <p id = "entry_details">{entry[label].details}</p>
+                    <p id = "entry_details">{entry.details}</p>
             </div>
                 
                     
