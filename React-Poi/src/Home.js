@@ -2,8 +2,8 @@ import React , {useState , useRef} from 'react'
 import { useHistory } from "react-router-dom";
 
 
-function Client(){
-    this.login_status_check = function(email,result){
+class Client{
+    login_status_check(email,result){
         if(result.status == "AUTHED"){
             localStorage.setItem("POIEMAIL", email );
             localStorage.setItem("POITOKEN",result.auth_token );
@@ -14,7 +14,7 @@ function Client(){
         }
     }
 
-    this.sign_up_status_check = function(result){
+    sign_up_status_check(result){
         if(result.status == "success"){
             //popup
         }
@@ -24,7 +24,7 @@ function Client(){
 
     }
 
-    this.login_or_signup= async function(email,code,type){
+    login_or_signup(email,code,type){
         if(type == "login"){
             const url = "http://localhost:8020/login";
             const options = {method : "POST",body : {email:email,code:code}};
@@ -41,7 +41,7 @@ function Client(){
         
     }
 
-    this.fetch_and_respond =async function(options,url){
+    fetch_and_respond(options,url){
         const response = await  fetch(url,options);
         const data = await response.json();
         return data  ;

@@ -12,16 +12,20 @@ import Profileviewheader from './profileviewheader'
 
 import StatsBar from './statsbar'
 
-function Client(params){
-    this.email = params.match.params.email;
-    this.token = localStorage.getItem("poitoken");
-
-    this.fetch_and_respond =async function(options,url){
+class Client{
+    constructor(params){
+        this.params = params
+        this.email = params.match.params.email;
+        this.token = localStorage.getItem("poitoken");
+    
+    }
+ 
+    async fetch_and_respond(options,url){
         const response = await  fetch(url,options)
         const data = await response.json()
         return data  
     }
-    this.logout = function(){
+    logout(){
         const options = {
             method: "POST",
             body : {
@@ -31,32 +35,32 @@ function Client(params){
         }
         return  this.fetch_and_respond(options,"http://localhost:8020/logout")
     }
-    this.change_code =  function(data){
+    change_code(data){
         data.token = this.token;
         data.email = this.email;
         const options = {method:"POST",body:data}
         return  this.fetch_and_respond(options,"http://localhost:8020/change-code")
     }
-    this.profile_data =  function(){
+    profile_data(){
         const url = "http://localhost:8020/userprofiledata/" + this.email+"/"+this.token
         const options = {method:"GET"} ;
         return  this.fetch_and_respond(options,url)
     }
 
-    this.create_new_person_or_entry =  function(data,url,method){
+    create_new_person_or_entry(data,url,method){
         data.token =this.token;
         data.email = this.email;
         const options = { method : method, body : data};
         return this.fetch_and_respond(options,url);
     }
 
-    this.delete_all_data =  function(){
+    delete_all_data(){
         const url = "http://localhost:8020/breached/"+this.email+"/"+this.token ;
         const options = {method:"DELETE"};
         return  this.fetch_and_respond(options,url);
     }
 
-    this.send_profile_to_all = function(profile_name, type){
+    send_profile_to_all(profile_name, type){
         const options = {method:"GET"};
         const base_url = "http://localhost:8020/send-profile-to-all/" + this.email+"/"+this.token;
         if(type == "all"){//send all profiles to all contacts
@@ -69,14 +73,14 @@ function Client(params){
 
 
     }
-    this.remove_contact = function(contact_email){
+    remove_contact(contact_email){
         const url = "http://localhost:8020/remove-contact/" 
             +this.token+"/"+this.email+"/"+contact_email;
         const options = {method:"DELETE"};
         return  this.fetch_and_respond(options,url);
     }
      
-    this.breach = async function(){
+    breach(){
         
         var email_result = await this.send_profile_to_all(null , "all")
         var delete_result =  await this.delete_all_data();
@@ -88,7 +92,7 @@ function Client(params){
         }
 
     }
-    this.change_display_state = function(change_fun){
+    change_display_state(change_fun){
         change_fun(prev=>{
             if(prev == false){
                 return true;
@@ -100,7 +104,7 @@ function Client(params){
 
 
     }
-    this.convert_file = function(file,state_changer ){
+    convert_file(file,state_changer ){
 		//converts image to base 64
 		 var converter = new FileReader();
 	  	 converter.readAsDataURL(file);
