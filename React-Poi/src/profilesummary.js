@@ -22,7 +22,7 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                         <h3>{"Race/Skin Tone:" + person[name].race}</h3>
                         <button id = "add_entry_button" 
                             onClick = {
-                                function(){actions.change_display_state(entry_popup_display_selector)}
+                                ()=>{actions.change_display_state(entry_popup_display_selector)}
                             }   
                             >New Entry
                         </button>

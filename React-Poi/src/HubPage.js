@@ -16,7 +16,7 @@ class Client{
     constructor(params){
         this.params = params
         this.email = params.match.params.email;
-        this.token = localStorage.getItem("poitoken");
+        this.token = localStorage.getItem("POITOKEN");
     
     }
  
@@ -136,18 +136,15 @@ export default function HubPage(params) {
     const [Contacts , addcontact] = useState([]);
     const [entry ,change_selected_entry] = useState(null)
     useEffect(async()=>{
-        //const profile_data = await  Interface.profile_data();
+
+
+        const data = await Interface.profile_data()
         addperson((prev)=>{
-            //return profile_data.persons
-            return [
-            {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" , 
-                        entries:{"kill":{level:3,date:"1/3/2020", details:"nothing"}}}},
-            {"josh-king" :{height:"5'5" , location:"trinidad" , race :"white" }},
-            {"kell-test" :{height:"5'1" , location:"chicago" , race :"white" }} ,
-            {"kelvin-second":{height:"5'3" , location:"la" , race :"white" }},
-            {"ashe-josh":{height:"5'11" , location:"outskirts" , race :"white" }},
-            {"kelvin-super":{height:"5'4" , location:"home" , race :"white" }},
-            {"ashe-over":{height:"5'2" , location:"unknown" , race :"white" }}] //test       
+            //only deal with arrays
+           
+                return  data.data.persons;      
+     
+            
         })
         addcontact((prev)=>{
             // return profile_data.contacts
@@ -194,6 +191,7 @@ export default function HubPage(params) {
                 />    
                 <Newentrypopup 
                         actions = {Interface}
+                        person = {person}
                         self_state_controller = {change_new_entry_display_state}
                         state = {new_entry_display_state}
                 />

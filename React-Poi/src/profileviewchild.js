@@ -2,6 +2,7 @@ import React from 'react'
 
 export default function Profileviewchild({person,change_selected}) {
         const name = Object.keys(person)//first layer only will be the name(one key)
+        console.log(name)
         const image = person[name].image
     
         if(typeof image === "undefined"){
