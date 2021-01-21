@@ -137,12 +137,13 @@ class MongoManager{
     create_person(data,response){
         if(this.connected == true){
             const name = data.first +"-"+ data.last;
+            const path = "persons."+name
             const metadata = {
                 height : data.height,
                 race : data.race,
                 location :data.location
             }
-            this.update_and_check({email :data.email},{$set:{persons: {[name]:metadata}}},response);
+            this.update_and_check({email :data.email},{$set:{[path]:metadata}},response);
         }
         else{
             response.json({status:"error"});
@@ -152,12 +153,11 @@ class MongoManager{
     //repeated logic as create_person, but for understanding purposes
     create_entry(data,response){
         if(this.connected == true){
-            const name = data.first +data.last
+            const name = data.first +"-"+data.last
+            const path = "persons."+name +".entries"+data.label
             this.update_and_check({email :data.email} , {
-                $set:{persons :{[name] : 
-                    {entries : 
-                        {[data.label] :
-                            {threat_level : data.threat_level , data : data.description,date :current_date()}}}}}});
+                $set:{[path]:
+                    {threat_level : data.threat_level , data : data.description,date :this.current_date()}}},response);
         }
         else{
             response.json({status:"error"});
@@ -218,12 +218,16 @@ class MongoManager{
         })
     }
 
-    gather_all(email){
-        var data;
-        this.collection.findOne({email:email} , (error,result)=>{
-            if(typeof error === 'undefined'){
-              data = result;
+    gather_all(email,response){
+        
+         this.collection.findOne({email:email} , (error,result)=>{
+            if(result){
+                response.json({status:"DATA" , data:result })
             }
+            else{
+                response.json({status:"error"})
+            }
+
            
         })
         return data;
@@ -270,7 +274,7 @@ class SessionManager{
         else{
             const token = uuidv4();
             this.sessions.set(email,token);
-            console.log(token)
+            console.log(this.sessions)
             response.json({status:"AUTHED" , auth_token :token});
 
         }
@@ -310,6 +314,7 @@ class ServerRequestHandler {
         this.mongo_manager = new MongoManager();
         this.mongo_manager.connect(this.session_manager);
         this.email_manager = new EmailManager();
+
       
 
     }
@@ -321,7 +326,8 @@ class ServerRequestHandler {
             res()
         }
         else{
-            response.setHeader("Content-Type","application/json")
+            console.log(email+""+token)
+        
             response.json({status:"error"})
         }
      }
@@ -379,7 +385,7 @@ class ServerRequestHandler {
         this.app.put("/addentry",(request,response)=>{
             this.check_auth_and_proceed(()=>{
                 this.mongo_manager.create_entry(request.body,response)
-            },request.body.email,request.body.email)
+            },request.body.email,request.body.token,response)
             
         })
 
@@ -454,9 +460,10 @@ class ServerRequestHandler {
         //identifies the user account and responds with data
         this.app.get("/userprofiledata/:email/:token",(request,response)=>{
             
-            this.check_auth_and_proceed(()=>{
-                console.log("works2")
-                response.json({status:"DATA" , data: this.mongo_manager.gather_all(request.params.email)})
+            this.check_auth_and_proceed(async()=>{
+                this.mongo_manager.gather_all(request.params.email,response)
+                
+                
             },request.params.email,request.params.token,response)
 
         })
