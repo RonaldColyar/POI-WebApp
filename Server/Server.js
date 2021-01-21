@@ -1,7 +1,8 @@
 
 
-
-
+var bodyParser = require("body-parser");
+const { request, response } = require("express");
+var { v4: uuidv4 } = require('uuid');
 
 class EmailManager{
     constructor(){
@@ -68,43 +69,51 @@ the sake of readability its repeated.
 
 */
 class MongoManager{
+     
     constructor(){
-    this.uri = "mongodb://localhost:27017/";
-    this.mongo = require("mongodb").MongoClient;
-    this.connected = false;
-    const self = this;
+    
+        this.uri = "mongodb://localhost:27017/";
+        this.mongo = require("mongodb").MongoClient;
+        this.connected = false;
+       
+    
     }
 
     //makes the user collection accessible by other class methods
-    connect(session_manager){
-        this.mongo.connect(this.uri,(error ,client)=>{
+    async connect(session_manager){
+        this.mongo.connect(this.uri,async(error ,client)=>{
             if(error){
                 console.log("error connecting to database")
             }
             else{
                 const db = client.db("POI");
-                self.collection = db.collection("users");
-                self.connected = true;
-                session_manager.locked_accounts = self.locked_accounts();
+                this.collection = db.collection("users");
+                this.connected = true;
+                session_manager.locked_accounts = await this.locked_accounts();
             }
         })
        
     }
-
-    //returns special verification code 
-    user_code(email){
-        var temp_code;
-        if (this.connected == true){
-            this.collection.findOne({email:email} , (error,result)=>{
-                if(result){
-                    temp_code = result.code;
-                }
-            })
-
+    code_check_tier_two(result,request,session_manager,response){
+        if (result.code == request.body.code) {
+            session_manager.add_session(request.body.email,response)     
         }
-        
-        return temp_code;
-
+        else{//wrong code
+            response.json({status:"error"}) 
+        }
+    }
+    //compares codes and update requester 
+   check_user_code(request,session_manager,response){
+        if (this.connected == true){ 
+            this.collection.findOne({email:request.body.email} , (error,result)=>{
+                if(result){ //user exist
+                    this.code_check_tier_two(result,request,session_manager,response)
+                }
+           })
+        }
+        else{
+            response.json({status:"error"})  
+        }   
     }
 
 
@@ -155,22 +164,13 @@ class MongoManager{
         }
     }
 
-    create_user(data , response){
-        if (this.user_exist(data.email) == true){
-            const error_message = {status:"error"}
-            response.json(error_message);
-        }
-        else{
-            user_object = {
-                email : data.email, 
-                code :  data.code
-            }
-            self.collection.insertOne(user_object , (error , result)=>{
+    create_user(data , response){   
+            this.collection.insertOne(data , (error , result)=>{
                 console.log("creation")
-                self.CUD_error_check(error,response)
+                this.CUD_error_check(error,response)
             });
         }
-    }
+    
     add_contact(email,contacts_email,response){
         this.collection.updateOne({email:email} 
             , {$set :{contacts:{[contacts_email]:" "}}},(error,result)=>{
@@ -178,19 +178,26 @@ class MongoManager{
             })
 }
 
-    user_exist(email){
-        var user_exists = false;
+    user_exist_check(email,data,response){
+    
         if (this.connected == true){
             this.collection.findOne({email:email} , (error,result)=>{
+                
                 if(result){
-                    user_exists = true;
+                    response.json({status:"error"})
                 }
+                else{
+                    this.create_user(data,response)
+                }       
             })
+            }
 
         }
-        return user_exists;
+    login_user_check
+    
+    
 
-    }
+    
     //breach of security
     delete_all(email,response){
         this.collection.deleteMany({email:email} , (error,result)=>{
@@ -230,7 +237,7 @@ class MongoManager{
     async locked_accounts(){
         var locked = [];
         await this.collection.find({account_status:"locked"}).toArray((error,result)=>{
-            for(i = 0; i<result.length-1; i++ ){
+            for(var i = 0; i<result.length-1; i++ ){
                 locked.push(result[i].email)
             }
         })
@@ -247,12 +254,12 @@ class MongoManager{
     
 
 }
- 
+
 class SessionManager{
     constructor(){
         this.sessions = new Map();
-        this.locked_accounts = [];
-        const { v4: uuidv4 } = require('uuid');
+        this.locked_accounts = new Array();
+       
     }
    
 
@@ -263,6 +270,7 @@ class SessionManager{
         else{
             const token = uuidv4();
             this.sessions.set(email,token);
+            console.log(token)
             response.json({status:"AUTHED" , auth_token :token});
 
         }
@@ -302,13 +310,13 @@ class ServerRequestHandler {
         this.mongo_manager = new MongoManager();
         this.mongo_manager.connect(this.session_manager);
         this.email_manager = new EmailManager();
-        var self = this;
+      
 
     }
     
    
      check_auth_and_proceed(res,email,token,response){
-        if(self.session_manager.is_authed(email,token) == true){
+        if(this.session_manager.is_authed(email,token) == true){
             console.log("works")
             res()
         }
@@ -318,28 +326,28 @@ class ServerRequestHandler {
         }
      }
      send_email_router(request,type){
-        const data = self.mongo_manager.gather_all(request.params.userEmail).persons
+        const data = this.mongo_manager.gather_all(request.params.userEmail).persons
          if(type == "all"){
             const person_data = data
-            self.email_manager.send_email(request.params.receiver,person_data
+            this.email_manager.send_email(request.params.receiver,person_data
             )
          }
          else{
             const person_data = data[request.params.profilename]
-            self.email_manager.send_email(request.params.receiver,person_data
+            this.email_manager.send_email(request.params.receiver,person_data
             )
          }
 
      }
      send_email_to_all_router(request,type){
-        var data = self.mongo_manager.gather_all(request.params.userEmail)
+        var data = this.mongo_manager.gather_all(request.params.userEmail)
         const contacts = data.contacts
 
          //send all persons to all contacts
         if(type == "all"){
             const person_data = data.persons
             for(contact in contacts){
-                self.email_manager.send_email(contacts.email,person_data
+                this.email_manager.send_email(contacts.email,person_data
                     )
             }
          }
@@ -348,7 +356,7 @@ class ServerRequestHandler {
          else{
             const person_data = data.persons[request.params.profilename]
             for (contact in contacts){
-                self.email_manager.send_email(request.params.receiver,person_data
+                this.email_manager.send_email(request.params.receiver,person_data
                     )
             }
          }
@@ -364,19 +372,20 @@ class ServerRequestHandler {
             );
             next();
         });
+        this.app.use(bodyParser.json());
         
      }
      setup_put(){
         this.app.put("/addentry",(request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.mongo_manager.create_entry(request.body,response)
+            this.check_auth_and_proceed(()=>{
+                this.mongo_manager.create_entry(request.body,response)
             },request.body.email,request.body.email)
             
         })
 
         this.app.put("/change-code" ,(request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.mongo_manager.change_code(request.body.newCode,request.body.email,response)
+            this.check_auth_and_proceed(()=>{
+                this.mongo_manager.change_code(request.body.newCode,request.body.email,response)
             },request.body.email,request.body.token,response)
         })
     
@@ -385,15 +394,15 @@ class ServerRequestHandler {
      }
      setup_delete(){
         this.app.delete("/remove-contact/:token/:email/:contactEmail" , (request,response)=>{
-            self.check_auth_and_proceed(()=>{
+            this.check_auth_and_proceed(()=>{
                 const child_to_remove = "contacts." +request.params.contactEmail ;
-                self.mongo_manager.delete(request.params.email,response,{$set:{[child_to_remove] : ""}});
+                this.mongo_manager.delete(request.params.email,response,{$set:{[child_to_remove] : ""}});
             })
         })
          //removes all data associated with an account
         this.app.delete("/breached/:email/:token", (request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.mongo_manager.delete_all(request.params.email,response)
+            this.check_auth_and_proceed(()=>{
+                this.mongo_manager.delete_all(request.params.email,response)
             },request.params.email,request.params.token,response)
         })
 
@@ -403,47 +412,35 @@ class ServerRequestHandler {
 
 
         this.app.post("/signup" , (request,response)=>{
-            if(self.mongo_manager.user_exist(request.body.email) == true){
-                response.json({status:"error"})
-            }
-            else{
-                self.mongo_manager.create_user(request.body)
-            }
+            //user exist handles user creation logic
+            this.mongo_manager.user_exist_check(request.body.email,request.body,response) 
+            
         })
+        
 
         this.app.post("/login", (request,response)=>{
-            if(self.mongo_manager.user_exist(request.body.email) == true){
-                //if the codes match
-                if(self.mongo_manager.user_code(request.body.email) == request.body.code){ 
-                    //add session and send authentication token
-                    self.session_manager.add_session(request.body.email,response)
-                }
-                else{//wrong code
-                    response.json({status:"error"}) 
-                }
-            }
-            else{ //user does not exist
-                response.json({status:"error"})
-            }
+         
+               this.mongo_manager.check_user_code(request,this.session_manager,response);
+ 
         })
      
     
         this.app.post("/add-contact" , (request,response)=>{
-            self.check_auth_and_proceed(function(){
-                self.mongo_manager.add_contact()
+            this.check_auth_and_proceed(function(){
+                this.mongo_manager.add_contact()
             })
         })
  
         this.app.post("/logout", (request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.session_manager.remove_session(request.body.email,response)
+            this.check_auth_and_proceed(()=>{
+                this.session_manager.remove_session(request.body.email,response)
             },request.body.email,request.body.token,response)
 
         })
        
         this.app.post("/addperson",(request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                    self.mongo_manager.create_person(request.body,response)
+            this.check_auth_and_proceed(()=>{
+                    this.mongo_manager.create_person(request.body,response)
             },request.body.email,request.body.token)
         })
 
@@ -457,28 +454,28 @@ class ServerRequestHandler {
         //identifies the user account and responds with data
         this.app.get("/userprofiledata/:email/:token",(request,response)=>{
             
-            self.check_auth_and_proceed(()=>{
+            this.check_auth_and_proceed(()=>{
                 console.log("works2")
-                response.json({status:"DATA" , data: self.mongo_manager.gather_all(request.params.email)})
+                response.json({status:"DATA" , data: this.mongo_manager.gather_all(request.params.email)})
             },request.params.email,request.params.token,response)
 
         })
         //getting or accessing the profile data
         this.app.get("/sendprofile/:type/:receiver/:userEmail/:token/:profilename" , (request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.send_email_router(request,request.params.type)
+            this.check_auth_and_proceed(()=>{
+                this.send_email_router(request,request.params.type)
         },request.params.userEmail,request.params.token,response)
         })
         //send one profile to all contacts
         this.app.get("/send-profile-to-all/:userEmail/:token/:profilename" , (request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.mongo_manager.send_email_to_all_router(request,"one")
+            this.check_auth_and_proceed(()=>{
+                this.mongo_manager.send_email_to_all_router(request,"one")
             },request.params.userEmail,request.params.token,response)
         })
         //sends all profiles to all contacts
         this.app.get("/send-profile-to-all/:userEmail/:token", (request,response)=>{
-            self.check_auth_and_proceed(()=>{
-                self.mongo_manager.send_email_to_all_router(request,"all")
+            this.check_auth_and_proceed(()=>{
+                this.mongo_manager.send_email_to_all_router(request,"all")
             }, request.params.userEmail,request.params.token,response)
         })
 
