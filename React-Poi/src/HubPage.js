@@ -28,17 +28,18 @@ class Client{
     logout(){
         const options = {
             method: "POST",
-            body : {
+            body : JSON.stringify({
                 email:this.email,
                 token:this.token
-            }
+            }),
+            headers: { "Content-Type": "application/json" }
         }
         return  this.fetch_and_respond(options,"http://localhost:8020/logout")
     }
     change_code(data){
         data.token = this.token;
         data.email = this.email;
-        const options = {method:"POST",body:data}
+        const options = {method:"POST",body:JSON.stringify(data), headers: { "Content-Type": "application/json" }}
         return  this.fetch_and_respond(options,"http://localhost:8020/change-code")
     }
     profile_data(){
@@ -50,7 +51,7 @@ class Client{
     create_new_person_or_entry(data,url,method){
         data.token =this.token;
         data.email = this.email;
-        const options = { method : method, body : data};
+        const options = { method : method, body :JSON.stringify(data), headers: { "Content-Type": "application/json" }};
         return this.fetch_and_respond(options,url);
     }
 
@@ -80,7 +81,7 @@ class Client{
         return  this.fetch_and_respond(options,url);
     }
      
-    breach(){
+    async breach(){
         
         var email_result = await this.send_profile_to_all(null , "all")
         var delete_result =  await this.delete_all_data();
