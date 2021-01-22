@@ -172,8 +172,9 @@ class MongoManager{
         }
     
     add_contact(email,contacts_email,response){
+        const path_to_set = "contacts."+"'"+contacts_email+"'"
         this.collection.updateOne({email:email} 
-            , {$set :{contacts:{[contacts_email]:" "}}},(error,result)=>{
+            , {$set :{[path_to_set]:null}},(error,result)=>{
                this.CUD_error_check(error,response)
             })
 }
@@ -230,7 +231,6 @@ class MongoManager{
 
            
         })
-        return data;
     }
     change_code(new_code,email,response){
         this.collection.updateOne({email:email} , {$set:{code:new_code}} , (error,result)=>{
@@ -402,8 +402,8 @@ class ServerRequestHandler {
         this.app.delete("/remove-contact/:token/:email/:contactEmail" , (request,response)=>{
             this.check_auth_and_proceed(()=>{
                 const child_to_remove = "contacts." +request.params.contactEmail ;
-                this.mongo_manager.delete(request.params.email,response,{$set:{[child_to_remove] : ""}});
-            })
+                this.mongo_manager.delete(request.params.email,response,{$unset:{[child_to_remove] : ""}});
+            },request.params.email,request.params.token,response)
         })
          //removes all data associated with an account
         this.app.delete("/breached/:email/:token", (request,response)=>{
@@ -432,9 +432,9 @@ class ServerRequestHandler {
      
     
         this.app.post("/add-contact" , (request,response)=>{
-            this.check_auth_and_proceed(function(){
-                this.mongo_manager.add_contact()
-            })
+            this.check_auth_and_proceed(()=>{
+                this.mongo_manager.add_contact(request.body.email,request.body.contacts_email,response)
+            },request.body.email,request.body.token,response)
         })
  
         this.app.post("/logout", (request,response)=>{
@@ -447,7 +447,7 @@ class ServerRequestHandler {
         this.app.post("/addperson",(request,response)=>{
             this.check_auth_and_proceed(()=>{
                     this.mongo_manager.create_person(request.body,response)
-            },request.body.email,request.body.token)
+            },request.body.email,request.body.token,response)
         })
 
     
