@@ -9,7 +9,6 @@ import Newentrypopup from './Newentrypopup'
 import Newpersonpopup from './newpersonpopup'
 import Profilesummary from './profilesummary'
 import Profileviewheader from './profileviewheader'
-
 import StatsBar from './statsbar'
 
 class Client{
@@ -74,6 +73,20 @@ class Client{
 
 
     }
+    add_contact(contact_email){
+        const url = "http://localhost:8020/add-contact";
+        const contact_request_data = {
+            token :localStorage.getItem("POITOKEN"),
+            email : localStorage.getItem("POIEMAIL"),
+            contacts_email:contact_email
+        }
+        const options = {
+            method:"POST",
+            body :JSON.stringify(contact_request_data),
+            headers: { "Content-Type": "application/json" }}
+        return this.fetch_and_respond(options,url);
+
+    }
     remove_contact(contact_email){
         const url = "http://localhost:8020/remove-contact/" 
             +this.token+"/"+this.email+"/"+contact_email;
@@ -109,7 +122,6 @@ class Client{
 		//converts image to base 64
 		 var converter = new FileReader();
 	  	 converter.readAsDataURL(file);
-	  	
 	     converter.onloadend = function () {
             this.uploaded_image = converter.result;
             this.change_display_state(state_changer); // changing the uploaded status
@@ -125,7 +137,7 @@ class Client{
 
 export default function HubPage(params) {
     var Interface = new Client(params)
-    const [person , changeperson] = useState(null)
+    const [person , changeperson] = useState(null);
     const [all_persons , addperson] = useState(null)
     const [contacts_display_state , change_contacts_display_state] = useState(false);
     const [breach_display_state , change_breach_display_state] = useState(false);
@@ -139,16 +151,24 @@ export default function HubPage(params) {
 
 
         const data = await Interface.profile_data()
-        addperson((prev)=>{
-            //only deal with arrays
-           
-                return  data.data.persons;      
-     
+        console.log(data)
+        addperson(()=>{
+            if (data.status == "error") {
+                return null
+            }
+            else{
+                return data.data.persons
+            }
             
-        })
+            
+            })
         addcontact((prev)=>{
-            // return profile_data.contacts
-            return [{email:"kellz@gmail.com"}]
+            if (data.data.contacts == null || typeof data.data.contacts ==="undefined" ) {
+                return null
+            }
+            else{
+                return data.data.contacts
+            }
         })
 
     },[])
@@ -173,7 +193,7 @@ export default function HubPage(params) {
                 <DetailsView entry = {entry}/>
                 <StatsBar 
                     data = {all_persons} 
-                    
+                    contacts = {Contacts}
                     person_popup_display_selector ={change_new_person_display_state}
                 />
                 <Accountbar 

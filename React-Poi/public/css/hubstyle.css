@@ -556,7 +556,7 @@ position: relative;left: 10px;
 .PersonsNames{
     color:#ffffff;
     position: relative; top: -154px; left: 180px;
-    font-size: 50px;
+    font-size: 35px;
 
 }
 .PersonsImages{
@@ -566,6 +566,7 @@ position: relative;left: 10px;
     background-color: #443e3e;
     border: 2px solid #ffffff;
     height: 177px;
+    width: 477px;
     
 }
 .contacts_child{

@@ -5,8 +5,11 @@ import Profileviewchild from './profileviewchild'
 
 
 export default function Profileviewheader({persons,display_selector}) {
+
+   
     console.log(persons)
-    if(persons == null  || persons.status == "error"){
+    if(persons == null ){
+       
         return(
             <div id = "profileview">
             <div id = "profile_view_header">
@@ -19,7 +22,7 @@ export default function Profileviewheader({persons,display_selector}) {
         )
     }
     else{
-       
+        const names = Object.keys(persons);
         return (
         
             <div id = "profileview">
@@ -28,8 +31,17 @@ export default function Profileviewheader({persons,display_selector}) {
                 <img id = "current_profiles_logo" src = "/Images/buttonlogo.jpg"></img>
                 <img id = "current_profiles_logo2" src = "/Images/authlogo.png"></img>
             </div>
+             {
+                 names.map(name=>{
+                   return  <Profileviewchild 
+                                key = {name} 
+                                person_data = {persons[name]}  
+                                person_name = {name} 
+                                change_selected = {display_selector}/>
+
+                 })
             
-             <Profileviewchild key = {Object.keys(person)[0]} person = {persons} change_selected = {display_selector}/>
+            }
              
             </div>
 

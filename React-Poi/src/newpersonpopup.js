@@ -49,11 +49,11 @@ export default function Newpersonpopup({state, self_state_controller, actions, i
                                 function(){
                                 actions.convert_file(ref_obj.image_input.current.files[0],image_state_controller)
                                         }} 
-                            ref= {ref_obj.image_input} >       
+                            innerRef= {ref_obj.image_input } >       
                     </input> 
 
                     <button id="Image" onClick = {
-                        ref_obj.image_input.click
+                       ref_obj.image_input.click
                         
                     }  >Choose Your Profile Image</button>
                     <button id = "Create_person_button" onClick = {

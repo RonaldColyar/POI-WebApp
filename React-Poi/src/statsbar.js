@@ -1,6 +1,15 @@
 import React from 'react'
 
-export default function StatsBar({data,person_popup_display_selector}) {
+function contact_size(contacts){
+    if (contacts) {
+        return Object.keys(contacts).length
+    }
+    else{
+        return 0;
+    }
+
+}
+export default function StatsBar({data,contacts,person_popup_display_selector}) {
     if (data) {
 
 
@@ -9,7 +18,7 @@ export default function StatsBar({data,person_popup_display_selector}) {
             <div id = "statsbar">
             <div class= "statwrappers"  id = "profile_num_wrapper">
                 <h3 id= "profile_num_header">Profiles</h3>
-                <h2 id = "profile_num"> {data.length}</h2>
+                <h2 id = "profile_num"> {Object.keys(data).length}</h2>
                 <button id = "add_person_button" onClick = {function(){
                     person_popup_display_selector(prev =>{
                         return true;
@@ -18,7 +27,7 @@ export default function StatsBar({data,person_popup_display_selector}) {
             </div>
             <div class= "statwrappers" id = "entry_num_wrapper">
                 <h3 id= "entry_num_header">Contacts</h3>
-                <h2 id = "entry_num"> 0</h2>
+                <h2 id = "entry_num"> {contact_size(contacts)}</h2>
             </div>
             <div   id = "date_num_wrapper">
                 <h3 id= "date_num_header">Last Entry Date</h3>
