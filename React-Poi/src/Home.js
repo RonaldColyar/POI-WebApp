@@ -4,8 +4,7 @@ import React , {useState , useRef} from 'react'
 
 class Client{
     login_status_check(email,result){
-        if(result.status == "AUTHED"){
-            
+        if(result.status == "AUTHED"){ 
             localStorage.setItem("POIEMAIL", email );
             localStorage.setItem("POITOKEN",result.auth_token );
             window.location.replace("http://localhost:3000/accounts/"+email);
