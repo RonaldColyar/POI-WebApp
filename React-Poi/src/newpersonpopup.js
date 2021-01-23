@@ -1,7 +1,14 @@
 import React,{useRef} from 'react'
 
 
-export default function Newpersonpopup({state, self_state_controller, actions, image_state_controller}) {
+export default function Newpersonpopup(
+    
+    {
+        state, 
+        self_state_controller, 
+        actions,
+        image_state_controller
+        }) {
 
     var ref_obj = {
         first_name : useRef(),
@@ -11,7 +18,8 @@ export default function Newpersonpopup({state, self_state_controller, actions, i
         race_name : useRef(),    
         image_input : useRef()
     }
-    function send_person_creation_request(){
+
+    async function send_person_creation_request(){
         const response_obj = {
             first:ref_obj.first_name.current.value,
             last : ref_obj.last_name.current.value,
@@ -21,7 +29,10 @@ export default function Newpersonpopup({state, self_state_controller, actions, i
             image: actions.uploaded_image
 
         };
-        actions.create_new_person_or_entry(response_obj,"http://localhost:8020/addperson","POST");
+        const response = await actions.create_new_person_or_entry
+                    (response_obj,"http://localhost:8020/addperson","POST");
+        actions.check_cud_response(response);
+        
     }
 
     return (

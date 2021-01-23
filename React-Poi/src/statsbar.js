@@ -9,10 +9,9 @@ function contact_size(contacts){
     }
 
 }
+
 export default function StatsBar({data,contacts,person_popup_display_selector}) {
     if (data) {
-
-
 
         return(
             <div id = "statsbar">
@@ -47,7 +46,7 @@ export default function StatsBar({data,contacts,person_popup_display_selector}) 
                     <div class= "statwrappers"  id = "profile_num_wrapper">
                         <h3 id= "profile_num_header">Profiles</h3>
                         <h2 id = "profile_num"> 0</h2>
-                        <button id = "add_person_button" onClick = {function(){
+                        <button id = "add_person_button" onClick = {()=>{
                             person_popup_display_selector(prev =>{
                                 return true;
                             })

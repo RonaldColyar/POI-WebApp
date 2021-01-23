@@ -5,17 +5,21 @@ import ContactsPopup from './ContactsPopup'
 import Createcontactspopup from './Createcontactspopup'
 import DetailsView from './entrydetailsview'
 import Entryhubview from './entryhubview'
+import ErrorDialog from './ErrorDialog'
 import Newentrypopup from './Newentrypopup'
 import Newpersonpopup from './newpersonpopup'
 import Profilesummary from './profilesummary'
 import Profileviewheader from './profileviewheader'
 import StatsBar from './statsbar'
+import SuccessDialog from './SuccessDialog'
 
 class Client{
-    constructor(params){
+    constructor(params,modify_success_dialog,modify_error_dialog){
         this.params = params
         this.email = params.match.params.email;
         this.token = localStorage.getItem("POITOKEN");
+        this.success_modifier = modify_success_dialog;
+        this.error_modifier = modify_error_dialog;
     
     }
  
@@ -131,12 +135,22 @@ class Client{
 	   			
 	}
 }
+    check_cud_response(response){
+        if (response.status=="success") {
+                this.change_display_state(this.success_modifier);
+                return true;
+        }
+        else{
+                this.change_display_state(this.error_modifier);
+                return false;
+        }
+    }
 
 
 }
 
 export default function HubPage(params) {
-    var Interface = new Client(params)
+    
     const [person , changeperson] = useState(null);
     const [all_persons , addperson] = useState(null)
     const [contacts_display_state , change_contacts_display_state] = useState(false);
@@ -147,6 +161,12 @@ export default function HubPage(params) {
     const [image_state , change_image_state] = useState(false);   
     const [Contacts , addcontact] = useState([]);
     const [entry ,change_selected_entry] = useState(null)
+    const [success_dialog_state , change_success_dialog_state] = useState(false);
+    const [error_dialog_state , change_error_dialog_state] = useState(false);
+    var Interface = new Client(
+                    params,change_success_dialog_state,
+                    change_error_dialog_state)
+
     useEffect(async()=>{
 
 
@@ -163,12 +183,18 @@ export default function HubPage(params) {
             
             })
         addcontact((prev)=>{
-            if (data.data.contacts == null || typeof data.data.contacts ==="undefined" ) {
+            if (data.status == "error") {
                 return null
+                
             }
             else{
-                return data.data.contacts
-            }
+                if (data.data.contacts == null || typeof data.data.contacts ==="undefined" ) {
+                    return null
+                }
+                else{
+                    return data.data.contacts
+                }
+        }
         })
 
     },[])
@@ -226,12 +252,26 @@ export default function HubPage(params) {
                         data = {Contacts}
                         state= {contacts_display_state}  
                         actions = {Interface} 
+                        all_modifier = {addcontact}
                 />
                 <Createcontactspopup 
                         state= {add_contact_display_state} 
                         self_state_controller = {change_add_contact_display_state}
+                        all_modifier = {addcontact}
                         actions = {Interface}
                 />    
+                <ErrorDialog
+                        state = {error_dialog_state}
+                        self_state_controller = {change_error_dialog_state}
+                        actions = {Interface}
+
+                />
+                <SuccessDialog
+                      state = {success_dialog_state}
+                      self_state_controller = {change_success_dialog_state}
+                      actions = {Interface}
+                
+                />
             </div>
                 
         )

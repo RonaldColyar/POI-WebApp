@@ -15,8 +15,8 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                         </img>
                     </div>
                     <div id = "profile_summary_footer">
-                        <h3>{"First Name:" +first_and_last[0] }</h3>
-                        <h3>{"Last Name:" + first_and_last[1]}</h3>
+                        <h3>{"First:" +first_and_last[0] }</h3>
+                        <h3>{"Last:" + first_and_last[1]}</h3>
                         <h3>{"Height:" + person[name].height}</h3>
                         <h3>{"Location:" + person[name].location}</h3>
                         <h3>{"Race/Skin Tone:" + person[name].race}</h3>
@@ -48,8 +48,8 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                         </img>
                     </div>
                     <div id = "profile_summary_footer">
-                        <h3>{"First Name:" +first_and_last[0] }</h3>
-                        <h3>{"Last Name:" + first_and_last[1]}</h3>
+                        <h3>{"First:" +first_and_last[0] }</h3>
+                        <h3>{"Last:" + first_and_last[1]}</h3>
                         <h3>{"Height:" + person[name].height}</h3>
                         <h3>{"Location:" + person[name].location}</h3>
                         <h3>{"Race/Skin Tone:" + person[name].race}</h3>

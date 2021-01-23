@@ -1,5 +1,5 @@
 import React , {useState , useRef} from 'react'
-import { useHistory } from "react-router-dom";
+
 
 
 class Client{
@@ -8,7 +8,7 @@ class Client{
             
             localStorage.setItem("POIEMAIL", email );
             localStorage.setItem("POITOKEN",result.auth_token );
-            //useHistory().push("/accounts/" + email);
+            window.location.replace("http://localhost:3000/accounts/"+email);
         }
         else{
             //popup

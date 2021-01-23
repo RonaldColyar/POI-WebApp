@@ -1,7 +1,14 @@
 import React from 'react'
 import Contactschild from './Contactschild'
 
-export default function  ContactsPopup({state,self_state_controller,actions,add_state_controller,data }) {
+export default function  ContactsPopup({
+    
+                state,
+                self_state_controller,
+                actions,
+                add_state_controller,
+                data ,
+                all_modifier}) {
     if (data) {
         return (
             <div id = "contacts_popup_wrapper" style = {{display:(state? "block":"none")}}>
@@ -11,7 +18,7 @@ export default function  ContactsPopup({state,self_state_controller,actions,add_
                     {
                     //displaying all contacts
                     Object.keys(data).map(contact =>{
-                        return <Contactschild actions = {actions} data = {contact}/>
+                        return <Contactschild key ={contact} all_modifier = {all_modifier} actions = {actions} data = {contact}/>
                     })}
     
                 </div>

@@ -1,6 +1,6 @@
 import React,{useRef} from 'react'
 
-export default function Createcontactspopup({state,self_state_controller, actions}) {
+export default function Createcontactspopup({state,self_state_controller, actions,all_modifier}) {
     const contact_ref = useRef();
     return (
         <div id = "create_contacts_wrapper" style = {{display:(state? "block":"none")}} >
@@ -8,8 +8,17 @@ export default function Createcontactspopup({state,self_state_controller, action
             <input ref = {contact_ref} placeholder = "Contact's Email" id = "Contact_email_entry"></input>
             <button id = "create_contact_button"
             onClick= {
-                ()=>{
-                    console.log(actions.add_contact(contact_ref.current.value))
+                async ()=>{
+                   var response = await actions.add_contact(contact_ref.current.value)
+                    if (actions.check_cud_response(response)==true){
+                        all_modifier(prev=>{
+                            prev[contact_ref.current.value] = null;
+                            return prev
+                        })
+
+                    } {
+                        
+                    }
 
                 }
 

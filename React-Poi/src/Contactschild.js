@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Contactschild({data,actions}) {
+export default function Contactschild({data,actions,all_modifier}) {
     
     return (
         <div className = "contacts_child">
@@ -10,6 +10,13 @@ export default function Contactschild({data,actions}) {
         onClick = {
             ()=>{
                 actions.remove_contact(data)
+                all_modifier(prev=>{
+                  var new_contacts = Object(prev)
+                  console.log(new_contacts)
+                  delete new_contacts[data]
+                  console.log(new_contacts)
+                  return new_contacts
+                })
             }
 
 
