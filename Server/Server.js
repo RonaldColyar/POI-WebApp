@@ -154,7 +154,7 @@ class MongoManager{
     create_entry(data,response){
         if(this.connected == true){
             const name = data.first +"-"+data.last
-            const path = "persons."+name +".entries"+data.label
+            const path = "persons."+name +".entries."+data.label
             this.update_and_check({email :data.email} , {
                 $set:{[path]:
                     {threat_level : data.threat_level , data : data.description,date :this.current_date()}}},response);
