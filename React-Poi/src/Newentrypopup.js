@@ -1,11 +1,40 @@
 import React , {useRef} from 'react'
 
-export default function Newentrypopup({state,self_state_controller,person ,actions}) {
 
+
+
+function current_date(){
+    var date = new  Date();
+    var current_month = date.getUTCMonth() +1; 
+    var current_day = date.getUTCDate();
+    var current_year = date.getUTCFullYear();
+    var stringified_date = current_month + "/" +current_day+ "/"+ current_year;
+    return stringified_date;
+}
+
+
+export default function Newentrypopup({state,self_state_controller,person ,actions,all_modifier}) {
     const level_ref = useRef();
     const label_ref = useRef();
     const details_ref = useRef();
 
+
+    function update_data_if_successful(status,data,first_last_array){
+        if (status == true) {
+            const new_obj = {threat_level : data.threat_level,
+                            data: data.description,
+                            date:current_date()}
+
+            all_modifier(prev=>{
+                const name = first_last_array[0]+"-"+first_last_array[1];
+                prev[name].entries[data.label]= new_obj;
+                console.log("data:")
+                console.log(prev);
+                return prev;
+            })
+        }
+
+    }
     async function send_entry_request() {
         const name = Object.keys(person);//first layer only will be the name(one key)
         const first_and_last = String(name[0]).split("-");
@@ -19,8 +48,8 @@ export default function Newentrypopup({state,self_state_controller,person ,actio
           threat_level: level_ref.current.value,
           token: localStorage.getItem("POITOKEN")
               }
-        const response = await actions.create_new_person_or_entry(data,url,"PUT")
-        actions.check_cud_response(response);
+        const response = await actions.create_person_or_entry(data,url,"PUT")
+        update_data_if_successful(actions.check_cud_response(response),data,first_and_last);
         
     }
 

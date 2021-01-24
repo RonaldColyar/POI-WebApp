@@ -7,6 +7,7 @@ export default function Newpersonpopup(
         state, 
         self_state_controller, 
         actions,
+        all_modifier,
         image_state_controller
         }) {
 
@@ -19,6 +20,25 @@ export default function Newpersonpopup(
         image_input : useRef()
     }
 
+    function update_data_if_successful(status,data){
+        if (status == true) {
+            const name = data.first+"-"+data.last;
+            const new_obj = {
+                height: data.height,
+                location: data.location,
+                race:data.race,
+                image:data.image
+            }
+            all_modifier(prev=>{
+                console.log(prev);
+                prev[name] = new_obj;
+                console.log(prev);
+                return prev;
+            })
+        }
+
+    }
+
     async function send_person_creation_request(){
         const response_obj = {
             first:ref_obj.first_name.current.value,
@@ -29,9 +49,9 @@ export default function Newpersonpopup(
             image: actions.uploaded_image
 
         };
-        const response = await actions.create_new_person_or_entry
+        const response = await actions.create_person_or_entry
                     (response_obj,"http://localhost:8020/addperson","POST");
-        actions.check_cud_response(response);
+        update_data_if_successful(actions.check_cud_response(response),response_obj);
         
     }
 

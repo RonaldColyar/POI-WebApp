@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function ErrorDialog({state,self_state_controller , actions}) {
     return (
-        <div id = "ErrorDialog"style = {{display:(state? "block":"none")}} >
+        <div id = "ErrorDialog"   style = {{display:(state? "block":"none")}} >
             
-            <h1>There Was An Error Completing The Action!</h1>
+            <h1> Error Completing</h1>
             <button 
               onClick = {
                     ()=>{

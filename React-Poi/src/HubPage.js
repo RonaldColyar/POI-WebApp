@@ -51,11 +51,16 @@ class Client{
         return  this.fetch_and_respond(options,url)
     }
 
-    create_new_person_or_entry(data,url,method){
+    create_person_or_entry(data,url,method){
         data.token =this.token;
         data.email = this.email;
         const options = { method : method, body :JSON.stringify(data), headers: { "Content-Type": "application/json" }};
         return this.fetch_and_respond(options,url);
+    }
+    delete_person(name){
+        const url = "http://localhost:8020/remove-person/"+this.token+"/"+this.email+"/"+name;
+        const options = {method: "DELETE"}
+        return this.fetch_and_respond(options,url)
     }
 
     delete_all_data(){
@@ -233,6 +238,7 @@ export default function HubPage(params) {
                         self_state_controller = {change_new_person_display_state}
                         state = {new_person_display_state}
                         image_state = {image_state}
+                        all_modifier = {addperson}
                         image_state_controller = {change_image_state}
                 />    
                 <Newentrypopup 
@@ -240,6 +246,7 @@ export default function HubPage(params) {
                         person = {person}
                         self_state_controller = {change_new_entry_display_state}
                         state = {new_entry_display_state}
+                        all_modifier = {addperson}
                 />
                 <Confirmbreachpopup 
                         actions = {Interface}

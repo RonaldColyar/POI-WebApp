@@ -11,7 +11,7 @@ export default function Contactschild({data,actions,all_modifier}) {
             ()=>{
                 actions.remove_contact(data)
                 all_modifier(prev=>{
-                  var new_contacts = Object(prev)
+                  var new_contacts = new Object(prev);
                   console.log(new_contacts)
                   delete new_contacts[data]
                   console.log(new_contacts)

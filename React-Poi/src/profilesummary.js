@@ -1,5 +1,10 @@
 import React from 'react'
 
+
+
+
+
+
 export default function Profilesummary({person , actions,entry_popup_display_selector}) {
 
    
@@ -28,7 +33,15 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                         </button>
                         <div>
                             <button id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
-                            <button id = "deletebutton"><img id= "deleteImage" src = "../Images/trash.png"></img></button>
+                            <button id = "deletebutton"  onClick = {async()=>{                          
+                                const response = await actions.delete_person(name);
+                                console.log(response)
+                                actions.check_cud_response(response);
+                                
+                            }
+
+
+                            }><img id= "deleteImage" src = "../Images/trash.png"></img></button>
                             <button id = "sharebutton">Share Profile</button>
                         </div>
                     </div>
@@ -38,7 +51,7 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
             )
                 }
 
-
+       
 
         else{
                     return(
@@ -61,7 +74,14 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                         </button>
                         <div>
                             <button id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
-                            <button id = "deletebutton"><img id= "deleteImage" src = "../Images/trash.png"></img></button>
+                            <button id = "deletebutton"          
+                            onClick = {async()=>{                          
+                                    const response = await actions.delete_person(name);
+                                    console.log(response)
+                                    actions.check_cud_response(response);
+                                     }}  
+                                     ><img id= "deleteImage" src = "../Images/trash.png"></img>
+                            </button>
                             <button id = "sharebutton">Share Profile</button>
                         </div>
                     </div>
