@@ -207,8 +207,7 @@ class MongoManager{
         })
 
     }
-    //delete person path : const child_to_remove = "persons." +name;
-    //delete person query: {$set :{[child_to_remove] : ""}
+
 
     //general purpose removal of a child
     delete(email,response,query){
@@ -403,6 +402,15 @@ class ServerRequestHandler {
             this.check_auth_and_proceed(()=>{
                 const child_to_remove = "contacts." +request.params.contactEmail ;
                 this.mongo_manager.delete(request.params.email,response,{$unset:{[child_to_remove] : ""}});
+            },request.params.email,request.params.token,response)
+        })
+
+        this.app.delete("/remove-person/:token/:email/:person_name" , (request,response)=>{
+            this.check_auth_and_proceed(()=>{
+                const child_to_remove = "persons."+request.params.person_name;
+                this.mongo_manager.delete(request.params.email,response,{$unset:{[child_to_remove]:""}})
+
+
             },request.params.email,request.params.token,response)
         })
          //removes all data associated with an account
