@@ -28,8 +28,6 @@ export default function Newentrypopup({state,self_state_controller,person ,actio
             all_modifier(prev=>{
                 const name = first_last_array[0]+"-"+first_last_array[1];
                 prev[name].entries[data.label]= new_obj;
-                console.log("data:")
-                console.log(prev);
                 return prev;
             })
         }

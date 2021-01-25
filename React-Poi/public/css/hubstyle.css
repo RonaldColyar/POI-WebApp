@@ -167,6 +167,7 @@
 }
 #DetailedHeader{
     background: #5c1e1eb9;
+    height: 90px;
 }
 #DetailedHeader h3{
     color: #ffffff;
@@ -625,4 +626,18 @@ position: relative;left: 10px;
     border: none;
     font-family: "Lucida Console", "Courier New", monospace;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.582), 0 2px 10px 0 rgba(0, 0, 0, 0.561);
+}
+#remove_selected_button{
+    border-radius: 4px;
+    background: none;
+    border: 3px solid #ffffff;    
+    height: 50px;
+    position: relative;top: -68px; left: 400px;
+
+}
+#remove_selected_button:hover{
+    background: #000;
+}
+#remove_selected_button img{
+    height : 45px;
 }

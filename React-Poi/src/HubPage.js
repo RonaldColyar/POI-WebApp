@@ -213,7 +213,8 @@ export default function HubPage(params) {
                 <Profilesummary 
                     actions = {Interface} 
                     entry_popup_display_selector = {change_new_entry_display_state}
-                    person = {person}/>
+                    person = {person}
+                    all_modifier = {addperson}/>
                 <Entryhubview change_selected_entry = {change_selected_entry} person = {person}/>
                 
                 <Profileviewheader
@@ -221,7 +222,11 @@ export default function HubPage(params) {
                  display_selector = {changeperson} 
                  />
 
-                <DetailsView entry = {entry}/>
+                <DetailsView 
+                    entry = {entry}
+                    self_state_controller = {change_selected_entry}  
+                    change_person_data ={changeperson}  
+                    person = {person}/>
                 <StatsBar 
                     data = {all_persons} 
                     contacts = {Contacts}

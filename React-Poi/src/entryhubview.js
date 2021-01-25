@@ -18,7 +18,9 @@ if (person) {
                         {"ron-colyar" :{height:"5'0" , location:"unknown" , race :"white" , 
                         entries:{"kill":{level:3,date:"1/3/2020", details:"nothing"}}}}                
                             */
-                            return <div onClick= {()=>{change_selected_entry(prev=>{return person[name].entries[label]})}}>
+                            return <div onClick= {()=>{
+                                
+                                    change_selected_entry(prev=>{return {[label]:person[name].entries[label]}})}}>
                                     <Entrylistingchild key={label}    label = {label} />
                                    </div>
                         })}
