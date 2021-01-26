@@ -641,3 +641,46 @@ position: relative;left: 10px;
 #remove_selected_button img{
     height : 45px;
 }
+#EditPersonPopup{
+    position: relative;top: -3356px;left: 550px;
+    backdrop-filter: blur(5px);
+    background-color:#757373d3 ;
+    width: 330px;
+    height: 330px;
+}
+
+#editImageInput{
+    display: none;
+}
+.edit_person_data{
+width: 325px;
+height: 40px;font-size: 20px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 10px 0 rgba(0, 0, 0, 0.561);
+border: none;
+position: relative;
+}
+#edit_person_header h1{
+    position: relative;left: 20px; 
+
+}
+#edit_person_header{
+    height: 76px;
+}
+#change_photo_button,#submit_edit_button{
+    color: #000000;
+    background-color:#ffffff;
+    border: 1px solid rgb(0, 0, 0);
+    height: 40px;
+    width: 130px;
+    position: relative;top: 2px;left: 34px;
+}
+#edit_person_entries{
+    height: 300px;
+}
+#close_edit_popup{
+    position: relative;top: -80px;left: 291px;
+    background: none;
+    color: #ffffff;
+    border: none;
+    font-size: 30px;
+}

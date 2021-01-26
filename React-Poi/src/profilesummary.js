@@ -16,7 +16,12 @@ function update_ui(status,modifier,names){
 
 
 
-export default function Profilesummary({person , actions,entry_popup_display_selector,all_modifier}) {
+export default function Profilesummary(
+    {person , 
+    actions,
+    entry_popup_display_selector,
+    all_modifier,
+    edit_state_modifier}) {
 
    
     
@@ -43,7 +48,9 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                             >New Entry
                         </button>
                         <div>
-                            <button id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
+                            <button 
+                                onClick = {()=>{edit_state_modifier(true)}}
+                                id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
                             <button id = "deletebutton"  onClick = {async()=>{                          
                                 const response = await actions.delete_person(name);
                                 update_ui(actions.check_cud_response(response),all_modifier,first_and_last);
@@ -83,7 +90,9 @@ export default function Profilesummary({person , actions,entry_popup_display_sel
                             >New Entry
                         </button>
                         <div>
-                            <button id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
+                            <button 
+                                onClick = {()=>{edit_state_modifier(true)}}
+                                id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
                             <button id = "deletebutton"          
                             onClick = {async()=>{                          
                                     const response = await actions.delete_person(name);

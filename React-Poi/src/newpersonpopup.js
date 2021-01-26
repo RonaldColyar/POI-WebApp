@@ -80,7 +80,7 @@ export default function Newpersonpopup(
                                 function(){
                                 actions.convert_file(ref_obj.image_input.current.files[0],image_state_controller)
                                         }} 
-                            innerRef= {ref_obj.image_input } >       
+                            ref= {ref_obj.image_input } >       
                     </input> 
 
                     <button id="Image" onClick = {

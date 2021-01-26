@@ -4,12 +4,9 @@ export default function Accountbar({actions, contacts_display_controller ,breach
     
     const check_logout_status = async function(){
         const response = await actions.logout()
-        if(response.status == "error"){
-            //popup
+        if (response.status == "success") {
+            window.location.replace("http://localhost:3000/");
         }
-        else{
-            //popup
-        }   
     }
     
     return (

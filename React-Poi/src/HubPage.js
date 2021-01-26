@@ -3,6 +3,7 @@ import Accountbar from './accountbar'
 import Confirmbreachpopup from './Confirmbreachpopup'
 import ContactsPopup from './ContactsPopup'
 import Createcontactspopup from './Createcontactspopup'
+import EditPersonPopup from './EditPersonPopup'
 import DetailsView from './entrydetailsview'
 import Entryhubview from './entryhubview'
 import ErrorDialog from './ErrorDialog'
@@ -13,6 +14,12 @@ import Profileviewheader from './profileviewheader'
 import StatsBar from './statsbar'
 import SuccessDialog from './SuccessDialog'
 
+
+
+/*Client handles all communcation with the
+  web server and handles simple U.I updating tasks.
+
+*/
 class Client{
     constructor(params,modify_success_dialog,modify_error_dialog){
         this.params = params
@@ -20,7 +27,6 @@ class Client{
         this.token = localStorage.getItem("POITOKEN");
         this.success_modifier = modify_success_dialog;
         this.error_modifier = modify_error_dialog;
-    
     }
  
     async fetch_and_respond(options,url){
@@ -134,10 +140,7 @@ class Client{
 	     converter.onloadend = function () {
             this.uploaded_image = converter.result;
             this.change_display_state(state_changer); // changing the uploaded status
-        
-            
-            
-	   			
+
 	}
 }
     check_cud_response(response){
@@ -150,12 +153,17 @@ class Client{
                 return false;
         }
     }
+    check_authentication_response(response){
+        if (response.status == "error") {
+            window.location.replace("http://localhost:3000/");
+            
+        }
+    }
 
 
 }
 
 export default function HubPage(params) {
-    
     const [person , changeperson] = useState(null);
     const [all_persons , addperson] = useState(null)
     const [contacts_display_state , change_contacts_display_state] = useState(false);
@@ -166,17 +174,18 @@ export default function HubPage(params) {
     const [image_state , change_image_state] = useState(false);   
     const [Contacts , addcontact] = useState([]);
     const [entry ,change_selected_entry] = useState(null)
+    const [edit_person_state , change_edit_person_state ] = useState(false);
     const [success_dialog_state , change_success_dialog_state] = useState(false);
     const [error_dialog_state , change_error_dialog_state] = useState(false);
     var Interface = new Client(
                     params,change_success_dialog_state,
                     change_error_dialog_state)
 
+
     useEffect(async()=>{
-
-
         const data = await Interface.profile_data()
-        console.log(data)
+        Interface.check_authentication_response(data);
+
         addperson(()=>{
             if (data.status == "error") {
                 return null
@@ -214,7 +223,8 @@ export default function HubPage(params) {
                     actions = {Interface} 
                     entry_popup_display_selector = {change_new_entry_display_state}
                     person = {person}
-                    all_modifier = {addperson}/>
+                    all_modifier = {addperson}
+                    edit_state_modifier = {change_edit_person_state}/>
                 <Entryhubview change_selected_entry = {change_selected_entry} person = {person}/>
                 
                 <Profileviewheader
@@ -284,6 +294,10 @@ export default function HubPage(params) {
                       actions = {Interface}
                 
                 />
+                <EditPersonPopup 
+                    state = {edit_person_state} 
+                    person = {person}
+                    self_state_controller = {change_edit_person_state}/>
             </div>
                 
         )

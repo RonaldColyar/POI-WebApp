@@ -8,11 +8,12 @@ export default function Contactschild({data,actions,all_modifier}) {
         <button
         
         onClick = {
-            ()=>{
-                actions.remove_contact(data)
+            async ()=>{
+                const response =await actions.remove_contact(data);
+                actions.check_cud_response(response);
                 all_modifier(prev=>{
-                     // data is formatted like:'email'(quotes being apart of the string)
-                    delete prev[String(data)]
+                // (data) is formatted like:'email'(quotes being apart of the string)
+                  delete prev[String(data)]
                   return prev;
                 })
             }

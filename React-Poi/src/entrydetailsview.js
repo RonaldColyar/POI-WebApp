@@ -21,6 +21,9 @@ export default function DetailsView({entry,self_state_controller, change_person_
                 <h3>Entry Details</h3>
                 <button onClick= {()=>{
                         update_ui(true , label,person,change_person_data)
+                        self_state_controller(prev=>{
+                            return null;
+                        })
 
 
                 }} id = "remove_selected_button"><img src = "../Images/trash.png" ></img></button>
