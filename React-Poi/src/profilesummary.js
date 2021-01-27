@@ -35,6 +35,7 @@ export default function Profilesummary(
     all_modifier,
     edit_state_modifier,
     change_person_state,
+    change_magnified_state,
     change_entry_state}) {
 
    
@@ -48,7 +49,7 @@ export default function Profilesummary(
                 <div id= "profile_summary">
                     <div id = "profile_summary_header">
                         <img id = "Main_Profile_Image" src= {person[name].image}></img>
-                        <button id = "image_magnify_button">
+                        <button id = "image_magnify_button" onClick = {()=>{change_magnified_state(true)}}>
                             <img src = "../Images/magni.png"></img>
                         </button>
                     </div>

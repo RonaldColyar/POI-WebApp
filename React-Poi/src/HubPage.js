@@ -7,6 +7,7 @@ import EditPersonPopup from './EditPersonPopup'
 import DetailsView from './entrydetailsview'
 import Entryhubview from './entryhubview'
 import ErrorDialog from './ErrorDialog'
+import MagnifiedImagePopup from './MagnifiedImagePopup'
 import Newentrypopup from './Newentrypopup'
 import Newpersonpopup from './newpersonpopup'
 import Profilesummary from './profilesummary'
@@ -213,6 +214,7 @@ export default function HubPage(params) {
     const [edit_person_state , change_edit_person_state ] = useState(false);
     const [success_dialog_state , change_success_dialog_state] = useState(false);
     const [error_dialog_state , change_error_dialog_state] = useState(false);
+    const [magnified_state , change_magnified_state] = useState(false);
     var Interface = new Client(
                     params,change_success_dialog_state,
                     change_error_dialog_state)
@@ -262,6 +264,7 @@ export default function HubPage(params) {
                     change_person_state = {changeperson}
                     all_modifier = {addperson}
                     edit_state_modifier = {change_edit_person_state}
+                    change_magnified_state = {change_magnified_state}
                     change_entry_state = {change_selected_entry}/>
                 <Entryhubview change_selected_entry = {change_selected_entry} person = {person}/>
                 
@@ -336,6 +339,11 @@ export default function HubPage(params) {
                     state = {edit_person_state} 
                     person = {person}
                     self_state_controller = {change_edit_person_state}/>
+                <MagnifiedImagePopup
+                    state = {magnified_state}
+                    person = {person}
+                    self_state_controller = {change_magnified_state}
+                />
             </div>
                 
         )

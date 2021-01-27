@@ -714,3 +714,35 @@ position: relative;
     color: #585252;
     position: relative;left: 210px;top: -180px;
 }
+#magnified_image_wrapper{
+    position: relative;top: -3680px;left: 520px;
+    backdrop-filter: blur(5px);
+    background-color:#000000d3 ;
+    width: 1300px;
+    height: 975px;
+}
+#magnified_image{
+    width: 800px;
+    position: relative;top: 10px;left: 260px;
+}
+#download_image_button{
+    border-radius: 4px;
+    background: #5c1e1eb9;
+    border: none;
+    position: relative;left: -200px;top: 120px;
+}
+#download_image_button:hover{
+    opacity: 0.5;
+}
+#download_image{
+    width: 100px;
+  
+}
+#close_magnified_image{
+    position: relative;top: -750px;left: 330px;
+    font-size: 50px;
+    background: none;
+    border: none;
+    color:#ffffff;
+
+}
