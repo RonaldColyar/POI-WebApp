@@ -44,7 +44,9 @@ export default function EditPersonPopup({state,person,modify_all_persons,self_st
                         id = "edit_race"></input>
 
                     <input className = "edit_person_data" type = "File" id = "editImageInput"></input>
-                    <button id = "change_photo_button">Change Photo</button>
+                    <button 
+                        onClick={()=>{document.getElementById("editImageInput").click()}} 
+                        id = "change_photo_button">Change Photo</button>
                     <button id = "submit_edit_button">Submit Change</button>
                     
                     

@@ -1,15 +1,27 @@
 import React from 'react'
 
-
-function update_ui(status,modifier,names){
+/* update_ui Changes the selected person state
+   once its deleted, the
+   state of all persons 
+   and the selected entry state.
+*/
+function update_ui(
+    status,
+    all_person_modifier,
+    names,
+    change_selected_person,
+    change_seleted_entry){
     if (status == true) {
-        modifier(prev=>{
+        all_person_modifier(prev=>{
             const name = names[0]+"-"+names[1];
             delete prev[name];
             return prev;
 
 
         })
+        change_selected_person(null);
+        change_seleted_entry(null);
+        
     }
 
 }
@@ -21,19 +33,24 @@ export default function Profilesummary(
     actions,
     entry_popup_display_selector,
     all_modifier,
-    edit_state_modifier}) {
+    edit_state_modifier,
+    change_person_state,
+    change_entry_state}) {
 
    
     
-    if(person != null){
+    if(person != null){ 
         const name = Object.keys(person);
         const first_and_last = String(name[0]).split("-");
-        if(person.image){
+        if(person[name].image){
+            
             return (
                 <div id= "profile_summary">
                     <div id = "profile_summary_header">
-                        <img id = "Main_Profile_Image" src= {person[name].image}>
-                        </img>
+                        <img id = "Main_Profile_Image" src= {person[name].image}></img>
+                        <button id = "image_magnify_button">
+                            <img src = "../Images/magni.png"></img>
+                        </button>
                     </div>
                     <div id = "profile_summary_footer">
                         <h3>{"First:" +first_and_last[0] }</h3>
@@ -53,7 +70,12 @@ export default function Profilesummary(
                                 id = "editbutton"><img id= "editImage" src = "../Images/pencil.png"></img></button>
                             <button id = "deletebutton"  onClick = {async()=>{                          
                                 const response = await actions.delete_person(name);
-                                update_ui(actions.check_cud_response(response),all_modifier,first_and_last);
+                                update_ui(
+                                    actions.check_cud_response(response),
+                                    all_modifier,
+                                    first_and_last,
+                                    change_person_state,
+                                    change_entry_state);
                                 
                             }
 

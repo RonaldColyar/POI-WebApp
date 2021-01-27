@@ -20,40 +20,8 @@ export default function Newpersonpopup(
         image_input : useRef()
     }
 
-    function update_data_if_successful(status,data){
-        if (status == true) {
-            const name = data.first+"-"+data.last;
-            const new_obj = {
-                height: data.height,
-                location: data.location,
-                race:data.race,
-                image:data.image
-            }
-            all_modifier(prev=>{
-                console.log(prev);
-                prev[name] = new_obj;
-                console.log(prev);
-                return prev;
-            })
-        }
+  
 
-    }
-
-    async function send_person_creation_request(){
-        const response_obj = {
-            first:ref_obj.first_name.current.value,
-            last : ref_obj.last_name.current.value,
-            height: ref_obj.height_name.current.value,
-            location:ref_obj.location_name.current.value,
-            race : ref_obj.race_name.current.value,
-            image: actions.uploaded_image
-
-        };
-        const response = await actions.create_person_or_entry
-                    (response_obj,"http://localhost:8020/addperson","POST");
-        update_data_if_successful(actions.check_cud_response(response),response_obj);
-        
-    }
 
     return (
         <div className= "popupwrappers" style = {{display:(state? "block":"none")}} id = "new_person_wrapper">
@@ -77,21 +45,18 @@ export default function Newpersonpopup(
                         
                     <input type='file' id="getFile" 
                             onChange= {
-                                function(){
-                                actions.convert_file(ref_obj.image_input.current.files[0],image_state_controller)
+                                ()=>{
+                                    const file = ref_obj.image_input.current.files[0];
+                                    actions.person_creation_with_image(file,ref_obj,all_modifier)
                                         }} 
                             ref= {ref_obj.image_input } >       
                     </input> 
 
                     <button id="Image" onClick = {
-                       ref_obj.image_input.click
+                       ()=>{document.getElementById("getFile").click()}
                         
                     }  >Choose Your Profile Image</button>
-                    <button id = "Create_person_button" onClick = {
-                        function(){
-                            send_person_creation_request()
-                        }
-                    }>Create</button>
+                    <button id = "Create_person_button">Create</button>
                     
                 </div>
 				

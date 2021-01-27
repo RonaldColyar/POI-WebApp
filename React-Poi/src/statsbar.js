@@ -30,7 +30,7 @@ export default function StatsBar({data,contacts,person_popup_display_selector}) 
             </div>
             <div   id = "date_num_wrapper">
                 <h3 id= "date_num_header">Last Entry Date</h3>
-                <h2 id = "date_num"> 01/10/12</h2>
+                <h2 id = "date_num"> Being Implemented</h2>
             </div>
         
         
@@ -58,7 +58,7 @@ export default function StatsBar({data,contacts,person_popup_display_selector}) 
                     </div>
                     <div   id = "date_num_wrapper">
                         <h3 id= "date_num_header">Last Entry Date</h3>
-                        <h2 id = "date_num"> N/A</h2>
+                        <h2 id = "date_num">Being Implemented</h2>
                     </div>
                     
                     

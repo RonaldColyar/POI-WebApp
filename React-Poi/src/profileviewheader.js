@@ -6,8 +6,7 @@ import Profileviewchild from './profileviewchild'
 
 export default function Profileviewheader({persons,display_selector}) {
 
-   
-    console.log(persons)
+
     if(persons == null ){
        
         return(

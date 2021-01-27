@@ -133,14 +133,50 @@ class Client{
 
 
     }
-    convert_file(file,state_changer ){
-		//converts image to base 64
-		 var converter = new FileReader();
-	  	 converter.readAsDataURL(file);
-	     converter.onloadend = function () {
-            this.uploaded_image = converter.result;
-            this.change_display_state(state_changer); // changing the uploaded status
 
+    on_user_creation_response(status,data,all_modifier){
+        if (status == true) {
+            const name = data.first+"-"+data.last;
+            const new_obj = {
+                height: data.height,
+                location: data.location,
+                race:data.race,
+                image:data.image
+            }
+            //modify all profiles(persons) with the new person object
+            all_modifier(prev=>{
+                prev[name] = new_obj; 
+                return prev;
+            })
+        }
+
+    }
+
+
+    async send_person_creation_request(response_obj,all_modifier){
+     
+        const response = await this.create_person_or_entry
+                    (response_obj,"http://localhost:8020/addperson","POST");
+        //check_cud_response returns a boolean
+        this.on_user_creation_response(this.check_cud_response(response),response_obj,all_modifier);
+        
+    }
+
+    person_creation_with_image(file,ref_obj,all_modifier ){
+        var converter = new FileReader();
+        converter.readAsDataURL(file);//converts image to base 64
+        converter.onloadend =()=>{//when image is done loading
+             const response_obj = {
+                first:ref_obj.first_name.current.value,
+                last : ref_obj.last_name.current.value,
+                height: ref_obj.height_name.current.value,
+                location:ref_obj.location_name.current.value,
+                race : ref_obj.race_name.current.value,
+                image:converter.result
+            };
+            console.log(response_obj)
+        this.send_person_creation_request(response_obj,all_modifier)
+        
 	}
 }
     check_cud_response(response){
@@ -223,8 +259,10 @@ export default function HubPage(params) {
                     actions = {Interface} 
                     entry_popup_display_selector = {change_new_entry_display_state}
                     person = {person}
+                    change_person_state = {changeperson}
                     all_modifier = {addperson}
-                    edit_state_modifier = {change_edit_person_state}/>
+                    edit_state_modifier = {change_edit_person_state}
+                    change_entry_state = {change_selected_entry}/>
                 <Entryhubview change_selected_entry = {change_selected_entry} person = {person}/>
                 
                 <Profileviewheader

@@ -27,8 +27,15 @@ export default function Newentrypopup({state,self_state_controller,person ,actio
 
             all_modifier(prev=>{
                 const name = first_last_array[0]+"-"+first_last_array[1];
-                prev[name].entries[data.label]= new_obj;
-                return prev;
+                console.log(prev)
+                if (prev[name].entries) {
+                    prev[name].entries[data.label]= new_obj;
+                    return prev;
+                }
+                else{
+                    prev[name].entries = {[data.label]:new_obj}
+                    return prev;
+                }
             })
         }
 
