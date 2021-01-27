@@ -141,7 +141,9 @@ class MongoManager{
             const metadata = {
                 height : data.height,
                 race : data.race,
-                location :data.location
+                location :data.location,
+                image : data.image
+
             }
             this.update_and_check({email :data.email},{$set:{[path]:metadata}},response);
         }
@@ -377,7 +379,7 @@ class ServerRequestHandler {
             );
             next();
         });
-        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.json({limit:"50mb"}));
         
      }
      setup_put(){
