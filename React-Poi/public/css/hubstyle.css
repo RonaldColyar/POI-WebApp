@@ -433,10 +433,13 @@
 #entry_hub_view{
     height: 653px;
     width: 350px;
-    background-color: #443e3e;
+    background-color: #000000;
     position: relative;top: -653px; left: 880px; 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.582), 0 6px 20px 0 rgba(0, 0, 0, 0.561);
     
+}
+#entry_hub_header h1 {
+    color: #ffffff;
 }
 #profileview{
     height: 1300px;
@@ -600,11 +603,13 @@ position: relative;left: 10px;
     height: 60px;
 }
 .entry_listing{
-    background-color: #727171;
+    background-color: #616161b9;
     height: 80px;
 }
 .entry_listing:hover{
-    background-color: #ffffff;
+    background-color: #000000;
+    border: 1px solid #ffffff;
+ 
 }
 #entry_hub_label{
     font-family: "Lucida Console", "Courier New", monospace;
@@ -723,6 +728,7 @@ position: relative;
 }
 #magnified_image{
     width: 800px;
+    height: 800px;
     position: relative;top: 10px;left: 260px;
 }
 #download_image_button{
@@ -745,4 +751,16 @@ position: relative;
     border: none;
     color:#ffffff;
 
+}
+.entry_image{
+    width: 60px;
+    height: 60px;
+    position: relative;top :-72px; left: 250px; 
+    border-radius: 50%;
+}
+.entry_level_label{
+
+    position: relative; top: -142px;left: 274px;
+    font-size: 24px;
+    color: #ffffff;
 }

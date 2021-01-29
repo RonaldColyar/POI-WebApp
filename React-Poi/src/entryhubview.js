@@ -21,7 +21,11 @@ if (person) {
                             return <div onClick= {()=>{
                                 
                                     change_selected_entry(prev=>{return {[label]:person[name].entries[label]}})}}>
-                                    <Entrylistingchild key={label}    label = {label} />
+                                    <Entrylistingchild 
+                                    
+                                        key={label} 
+                                        threat_level = {person[name].entries[label].threat_level}   
+                                        label = {label} />
                                    </div>
                         })}
                     </div>
