@@ -142,7 +142,8 @@ class Client{
                 height: data.height,
                 location: data.location,
                 race:data.race,
-                image:data.image
+                image:data.image,
+                entries:data.entries
             }
             //modify all profiles(persons) with the new person object
             all_modifier(prev=>{
@@ -163,20 +164,12 @@ class Client{
         
     }
 
-    person_creation_with_image(file,ref_obj,all_modifier ){
+    person_CU_with_image(file,person_obj,all_modifier){
         var converter = new FileReader();
         converter.readAsDataURL(file);//converts image to base 64
         converter.onloadend =()=>{//when image is done loading
-             const response_obj = {
-                first:ref_obj.first_name.current.value,
-                last : ref_obj.last_name.current.value,
-                height: ref_obj.height_name.current.value,
-                location:ref_obj.location_name.current.value,
-                race : ref_obj.race_name.current.value,
-                image:converter.result
-            };
-            console.log(response_obj)
-        this.send_person_creation_request(response_obj,all_modifier)
+        person_obj["image"] = converter.result;
+        this.send_person_creation_request(person_obj,all_modifier)
         
 	}
 }
@@ -208,7 +201,6 @@ export default function HubPage(params) {
     const [add_contact_display_state, change_add_contact_display_state] = useState(false);
     const [new_entry_display_state , change_new_entry_display_state] = useState(false);
     const [new_person_display_state, change_new_person_display_state]= useState(false);
-    const [image_state , change_image_state] = useState(false);   
     const [Contacts , addcontact] = useState([]);
     const [entry ,change_selected_entry] = useState(null)
     const [edit_person_state , change_edit_person_state ] = useState(false);
@@ -229,7 +221,9 @@ export default function HubPage(params) {
                 return null
             }
             else{
+                console.log(data.data.persons)
                 return data.data.persons
+              
             }
             
             
@@ -293,9 +287,8 @@ export default function HubPage(params) {
                         actions = {Interface}
                         self_state_controller = {change_new_person_display_state}
                         state = {new_person_display_state}
-                        image_state = {image_state}
                         all_modifier = {addperson}
-                        image_state_controller = {change_image_state}
+                       
                 />    
                 <Newentrypopup 
                         actions = {Interface}
@@ -338,6 +331,8 @@ export default function HubPage(params) {
                 <EditPersonPopup 
                     state = {edit_person_state} 
                     person = {person}
+                    modify_all_persons = {addperson}
+                    actions = {Interface}
                     self_state_controller = {change_edit_person_state}/>
                 <MagnifiedImagePopup
                     state = {magnified_state}

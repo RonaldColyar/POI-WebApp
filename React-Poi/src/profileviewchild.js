@@ -9,7 +9,7 @@ function number_of_entries(person_data){
 }
 export default function Profileviewchild({person_data,person_name,change_selected}) {
         const image = person_data.image
-        if(typeof image === "undefined"){
+        if(typeof image === "undefined" || image == null){
             return (
                 <div className = "PersonsWrapper" onClick = {
 
@@ -25,6 +25,7 @@ export default function Profileviewchild({person_data,person_name,change_selecte
             )
         }
         else{
+          
             return (
                 <div className= "PersonsWrapper" onClick = {
 

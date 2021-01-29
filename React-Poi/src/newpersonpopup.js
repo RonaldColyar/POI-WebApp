@@ -8,7 +8,6 @@ export default function Newpersonpopup(
         self_state_controller, 
         actions,
         all_modifier,
-        image_state_controller
         }) {
 
     var ref_obj = {
@@ -46,8 +45,16 @@ export default function Newpersonpopup(
                     <input type='file' id="getFile" 
                             onChange= {
                                 ()=>{
+                                    const response_obj = {
+                                        first:ref_obj.first_name.current.value,
+                                        last : ref_obj.last_name.current.value,
+                                        height: ref_obj.height_name.current.value,
+                                        location:ref_obj.location_name.current.value,
+                                        race : ref_obj.race_name.current.value
+                                        
+                                    };
                                     const file = ref_obj.image_input.current.files[0];
-                                    actions.person_creation_with_image(file,ref_obj,all_modifier)
+                                    actions.person_CU_with_image(file,response_obj,all_modifier)
                                         }} 
                             ref= {ref_obj.image_input } >       
                     </input> 
@@ -55,8 +62,25 @@ export default function Newpersonpopup(
                     <button id="Image" onClick = {
                        ()=>{document.getElementById("getFile").click()}
                         
-                    }  >Choose Your Profile Image</button>
-                    <button id = "Create_person_button">Create</button>
+                    }>Create with photo</button>
+                    <button 
+                        id = "Create_person_button"
+                        onClick = {
+
+                            ()=>{
+                                const response_obj = {
+                                    first:ref_obj.first_name.current.value,
+                                    last : ref_obj.last_name.current.value,
+                                    height: ref_obj.height_name.current.value,
+                                    location:ref_obj.location_name.current.value,
+                                    race : ref_obj.race_name.current.value
+                                    
+                                };
+                                actions.send_person_creation_request(response_obj,all_modifier)
+                            }
+                        }
+                    
+                    >Create without photo</button>
                     
                 </div>
 				
