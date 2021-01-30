@@ -119,6 +119,7 @@ class MongoManager{
 
     CUD_error_check(error,response){//create,update,delete
         if(error){
+            console.log(error)
             response.json({status : "error"});
         }
         else{
@@ -134,18 +135,23 @@ class MongoManager{
         } );
 
     }
+    create_person_tier2(data,response){
+        const name = data.first +"-"+ data.last;
+        const path = "persons."+name;
+        var metadata = {height : data.height, race : data.race,
+            location :data.location,
+            image : data.image,
+        }
+        if (data.entries) {
+            metadata["entries"] = data.entries;
+        }
+        this.update_and_check({email :data.email},{$set:{[path]:metadata}},response);
+    }
+
     create_person(data,response){
         if(this.connected == true){
-            const name = data.first +"-"+ data.last;
-            const path = "persons."+name
-            const metadata = {
-                height : data.height,
-                race : data.race,
-                location :data.location,
-                image : data.image
-
-            }
-            this.update_and_check({email :data.email},{$set:{[path]:metadata}},response);
+            //avoiding long functionality
+            this.create_person_tier2(data,response);
         }
         else{
             response.json({status:"error"});
