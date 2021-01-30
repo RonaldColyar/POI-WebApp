@@ -114,11 +114,7 @@ export default function EditPersonPopup(
                         id = "change_photo_button">With Photo</button>
                     <button 
                         onClick = {()=>{
-                 
-
                         edit_person(person_name,modify_all_persons,actions,"without",person,ref_obj);
-                           
-                            
 
                         }}
                         id = "submit_edit_button">Without Photo</button>

@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function SuccessDialog({state,self_state_controller,actions}) {
     return (
-        // style = {{display:(state? "block":"none")}}
+     
         <div id = "SuccessDialog"  style = {{display:(state? "block":"none")}}>
             <h1>Action Successful!</h1>
             <button         
