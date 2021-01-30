@@ -5,3 +5,4 @@ the desktop applications.By using the web version of the P.O.I software collecti
 
 
 
+![alt text](https://github.com/RonaldColyar/POI-WebApp/blob/master/samplegui/SAMPLEHOME.png)
