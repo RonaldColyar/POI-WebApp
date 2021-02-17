@@ -8,3 +8,9 @@ the desktop applications.By using the web version of the P.O.I software collecti
 ![alt text](https://github.com/RonaldColyar/POI-WebApp/blob/master/samplegui/SAMPLEHOME.png)
 # Main User Hub G.U.I(there are animations):
 ![alt text](https://github.com/RonaldColyar/POI-WebApp/blob/master/samplegui/SAMPLEMAIN.png)
+
+
+# How to run locally:
+
+- run `npm start` in React-Poi.
+- run `node server.js` in Server.
