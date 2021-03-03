@@ -119,9 +119,13 @@ export default function Profilesummary(
                             <button id = "deletebutton"          
                             onClick = {async()=>{                          
                                     const response = await actions.delete_person(name);
-                                    console.log(response)
-                                    update_ui(actions.check_cud_response(response),all_modifier,first_and_last);
-                                
+                                    update_ui(
+                                        actions.check_cud_response(response),
+                                        all_modifier,
+                                        first_and_last,
+                                        change_person_state,
+                                        change_entry_state);
+                                    
                                      }}  
                                      ><img id= "deleteImage" src = "../Images/trash.png"></img>
                             </button>
